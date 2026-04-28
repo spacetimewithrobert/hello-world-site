@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events | SpaceTime With Robert</title>
+<link rel="stylesheet" href="style.css">
 
+<style>
+/* ===== EVENT STATUS ===== */
+#eventContainer {
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+#eventImage {
+    max-width: 320px;
+    display: block;
+    margin: 0 auto;
+}
+
+#eventOverlayText, #eventOverlayLocation {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: none;
+}
+
+#eventOverlayText { top: 50%; }
+#eventOverlayLocation { top: 60%; }
+
+.statusText {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    display: none;
+}
+
+.goText { color: #00ff00; }
+.pendingText { color: white; }
+.noGoText { color: red; }
+
+.grayscale { filter: grayscale(100%); }
+.red-tint { filter: sepia(1) hue-rotate(-50deg) saturate(6); }
+
+/* ===== CALENDAR ===== */
+.calendar-container {
+    max-width: 512px;
+    margin: 40px auto;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.day {
+    border: 1px solid #bd50cb;
+    padding: 5px;
+    text-align: center;
+    border-radius: 6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>SpaceTime With Robert</h1>
+</header>
+
+<!-- ===== EVENT STATUS ===== -->
+<figure id="eventContainer">
+    <img id="eventImage" src="images/logo.jpg">
+    <div id="eventOverlayText"></div>
+    <div id="eventOverlayLocation"></div>
+    <div id="goStatusText" class="statusText goText">GO</div>
+    <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
+    <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
+</figure>
+
+<!-- ===== CALENDAR ===== -->
+<div class="calendar-container">
+    <div id="calendar" class="calendar"></div>
+</div>
+
+<script>
+
+/* ===== SETTINGS ===== */
+const SETTINGS = {
+    switchTime: 12,
+    overrideGo: false,
+    eventDay: 0
+};
+
+/* ===== EVENT STATUS LOGIC ===== */
+(function() {
+    const img = document.getElementById("eventImage");
+    const go = document.getElementById("goStatusText");
+    const pending = document.getElementById("pendingStatusText");
+    const noGo = document.getElementById("noGoStatusText");
+
+    const now = new Date();
+    const isSunday = now.getDay() === SETTINGS.eventDay;
+    const afterSwitch = now.getHours() >= SETTINGS.switchTime;
+
+    if (SETTINGS.overrideGo && isSunday) {
+        go.style.display = "block";
+    } else if (isSunday && afterSwitch) {
+        img.classList.add("red-tint");
+        noGo.style.display = "block";
+    } else {
+        img.classList.add("grayscale");
+        pending.style.display = "block";
+    }
+})();
+
+/* ===== SIMPLE CALENDAR (trimmed version) ===== */
+const calendar = document.getElementById("calendar");
+
+for (let i = 1; i <= 28; i++) {
+    const day = document.createElement("div");
+    day.className = "day";
+    day.textContent = i;
+    calendar.appendChild(day);
+}
+
+</script>
+
+</body>
+</html>
