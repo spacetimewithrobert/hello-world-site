@@ -68,6 +68,31 @@
     text-align: center;
     border-radius: 6px;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1a001a;
+  padding: 20px;
+  border: 2px solid #bd50cb;
+  border-radius: 10px;
+  display: none;
+  color: white;
+  text-align: center;
+}
+    
 </style>
 
 </head>
@@ -91,6 +116,13 @@
 <!-- ===== CALENDAR ===== -->
 <div class="calendar-container">
     <div id="calendar" class="calendar"></div>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="popup" class="popup">
+  <div id="popup-content"></div>
+  <button onclick="closePopup()">Close</button>
 </div>
 
 <script id="event-data" type="application/json">
@@ -134,11 +166,22 @@ function createCalendar() {
       day.style.cursor = "pointer";
 
       day.onclick = () => {
-        const e = events[key];
-        alert(
-          `${date.toDateString()}\n\n${e.description}\n${e.startTime} - ${e.endTime}`
-        );
-      };
+  const e = events[key];
+
+  document.getElementById("popup-content").innerHTML = `
+    <h3>${date.toDateString()}</h3>
+    <p>${e.description}</p>
+    <p><strong>${e.startTime} - ${e.endTime}</strong></p>
+    <p>
+      <a href="https://www.google.com/maps?q=${e.location.lat},${e.location.lon}" target="_blank">
+        View Location
+      </a>
+    </p>
+  `;
+
+  document.getElementById("popup").style.display = "block";
+  document.getElementById("overlay").style.display = "block";
+};
     }
 
     calendar.appendChild(day);
@@ -146,6 +189,11 @@ function createCalendar() {
 }
 
 createCalendar();
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+}
 </script>
     
 <script>
