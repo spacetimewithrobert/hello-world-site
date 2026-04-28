@@ -93,6 +93,61 @@
     <div id="calendar" class="calendar"></div>
 </div>
 
+<script id="event-data" type="application/json">
+{
+  "260503": {
+    "description": "SPACETIME! (PENDING)",
+    "startTime": "18:00",
+    "endTime": "21:00",
+    "location": { "lat": 48.754048, "lon": -122.50088 }
+  }
+}
+</script>
+    
+<script>
+function getEvents() {
+  return JSON.parse(document.getElementById("event-data").textContent);
+}
+
+function createCalendar() {
+  const calendar = document.getElementById("calendar");
+  calendar.innerHTML = "";
+
+  const events = getEvents();
+  const today = new Date();
+
+  for (let i = 0; i < 28; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+
+    const key = String(date.getFullYear()).slice(2) +
+      String(date.getMonth()+1).padStart(2,"0") +
+      String(date.getDate()).padStart(2,"0");
+
+    const day = document.createElement("div");
+    day.className = "day";
+
+    day.innerHTML = `<strong>${date.getDate()}</strong>`;
+
+    if (events[key]) {
+      day.style.background = "#2A2D44";
+      day.style.cursor = "pointer";
+
+      day.onclick = () => {
+        const e = events[key];
+        alert(
+          `${date.toDateString()}\n\n${e.description}\n${e.startTime} - ${e.endTime}`
+        );
+      };
+    }
+
+    calendar.appendChild(day);
+  }
+}
+
+createCalendar();
+</script>
+    
 <script>
 
 /* ===== SETTINGS ===== */
@@ -123,16 +178,6 @@ const SETTINGS = {
         pending.style.display = "block";
     }
 })();
-
-/* ===== SIMPLE CALENDAR (trimmed version) ===== */
-const calendar = document.getElementById("calendar");
-
-for (let i = 1; i <= 28; i++) {
-    const day = document.createElement("div");
-    day.className = "day";
-    day.textContent = i;
-    calendar.appendChild(day);
-}
 
 </script>
 
