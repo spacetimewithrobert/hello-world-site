@@ -125,22 +125,55 @@
   <button onclick="closePopup()">Close</button>
 </div>
 
-<script id="event-data" type="application/json">
-{
-  "260503": {
-    "description": "SPACETIME! (PENDING)",
-    "startTime": "18:00",
-    "endTime": "21:00",
-    "location": { "lat": 48.754048, "lon": -122.50088 }
-  }
-}
-</script>
-    
 <script>
+
+/* ===== SETTINGS ===== */
+const SETTINGS = {
+    switchTime: 12,
+    overrideGo: false,
+    eventDay: 0
+};
+
+/* ===== GET EVENT DATA ===== */
 function getEvents() {
   return JSON.parse(document.getElementById("event-data").textContent);
 }
 
+/* ===== POPUP ===== */
+function openPopup(content) {
+  document.getElementById("popup-content").innerHTML = content;
+  document.getElementById("popup").style.display = "block";
+  document.getElementById("overlay").style.display = "block";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+}
+
+/* ===== EVENT STATUS ===== */
+function updateEventStatus() {
+    const img = document.getElementById("eventImage");
+    const go = document.getElementById("goStatusText");
+    const pending = document.getElementById("pendingStatusText");
+    const noGo = document.getElementById("noGoStatusText");
+
+    const now = new Date();
+    const isSunday = now.getDay() === SETTINGS.eventDay;
+    const afterSwitch = now.getHours() >= SETTINGS.switchTime;
+
+    if (SETTINGS.overrideGo && isSunday) {
+        go.style.display = "block";
+    } else if (isSunday && afterSwitch) {
+        img.classList.add("red-tint");
+        noGo.style.display = "block";
+    } else {
+        img.classList.add("grayscale");
+        pending.style.display = "block";
+    }
+}
+
+/* ===== CALENDAR ===== */
 function createCalendar() {
   const calendar = document.getElementById("calendar");
   calendar.innerHTML = "";
@@ -166,66 +199,32 @@ function createCalendar() {
       day.style.cursor = "pointer";
 
       day.onclick = () => {
-  const e = events[key];
+        const e = events[key];
 
-  document.getElementById("popup-content").innerHTML = `
-    <h3>${date.toDateString()}</h3>
-    <p>${e.description}</p>
-    <p><strong>${e.startTime} - ${e.endTime}</strong></p>
-    <p>
-      <a href="https://www.google.com/maps?q=${e.location.lat},${e.location.lon}" target="_blank">
-        View Location
-      </a>
-    </p>
-  `;
-
-  document.getElementById("popup").style.display = "block";
-  document.getElementById("overlay").style.display = "block";
-};
+        openPopup(`
+          <h3>${date.toDateString()}</h3>
+          <p>${e.description}</p>
+          <p><strong>${e.startTime} - ${e.endTime}</strong></p>
+          <p>
+            <a href="https://www.google.com/maps?q=${e.location.lat},${e.location.lon}" target="_blank">
+              View Location
+            </a>
+          </p>
+        `);
+      };
     }
 
     calendar.appendChild(day);
   }
 }
 
-createCalendar();
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-  document.getElementById("overlay").style.display = "none";
+/* ===== INIT ===== */
+function init() {
+  updateEventStatus();
+  createCalendar();
 }
-</script>
-    
-<script>
 
-/* ===== SETTINGS ===== */
-const SETTINGS = {
-    switchTime: 12,
-    overrideGo: false,
-    eventDay: 0
-};
-
-/* ===== EVENT STATUS LOGIC ===== */
-(function() {
-    const img = document.getElementById("eventImage");
-    const go = document.getElementById("goStatusText");
-    const pending = document.getElementById("pendingStatusText");
-    const noGo = document.getElementById("noGoStatusText");
-
-    const now = new Date();
-    const isSunday = now.getDay() === SETTINGS.eventDay;
-    const afterSwitch = now.getHours() >= SETTINGS.switchTime;
-
-    if (SETTINGS.overrideGo && isSunday) {
-        go.style.display = "block";
-    } else if (isSunday && afterSwitch) {
-        img.classList.add("red-tint");
-        noGo.style.display = "block";
-    } else {
-        img.classList.add("grayscale");
-        pending.style.display = "block";
-    }
-})();
+init();
 
 </script>
 
