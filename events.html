@@ -54,6 +54,8 @@
 .calendar-container {
     max-width: 512px;
     margin: 40px auto;
+    padding: 0 12px;
+    box-sizing: border-box;
 }
 
 .calendar {
@@ -81,6 +83,10 @@
 }
 
 .popup {
+  font-size: 18px;
+  max-width: min(90vw, 420px);
+  width: calc(100% - 32px);
+  box-sizing: border-box;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -92,6 +98,18 @@
   display: none;
   color: white;
   text-align: center;
+}
+
+.popup a {
+  color: #ff66cc;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .popup {
+    font-size: 22px;
+    padding: 24px;
+  }
 }
 </style>
 </head>
@@ -179,11 +197,15 @@ function createCalendar() {
   calendar.innerHTML = '';
 
   const events = getEvents();
-  const today = new Date();
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() - today.getDay());
 
   for (let i = 0; i < 28; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
 
     const key = String(date.getFullYear()).slice(2) +
       String(date.getMonth() + 1).padStart(2, '0') +
