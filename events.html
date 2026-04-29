@@ -92,29 +92,21 @@ function closePopup() {
 }
 
 function updateEventStatus() {
-    const go = document.getElementById("goStatusText");
-    const pending = document.getElementById("pendingStatusText");
-    const noGo = document.getElementById("noGoStatusText");
-
     const now = new Date();
     const isEventDay = now.getDay() === SETTINGS.eventDay;
     const afterSwitch = now.getHours() >= SETTINGS.switchTime;
 
-    go.style.display = "none";
-    pending.style.display = "none";
-    noGo.style.display = "none";
-
     if (SETTINGS.overrideGo && isEventDay) {
-        go.style.display = "block";
+        window.setHeaderState?.("GO");
         return;
     }
 
     if (isEventDay && afterSwitch) {
-        noGo.style.display = "block";
+        window.setHeaderState?.("NO_GO");
         return;
     }
 
-    pending.style.display = "block";
+    window.setHeaderState?.("PENDING");
 }
 
 function createCalendar() {
