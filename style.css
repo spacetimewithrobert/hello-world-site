@@ -1,9 +1,33 @@
 /* =========================
+   GLOBAL SITE COLORS
+   Match original STWR theme
+========================= */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #000000;   /* deep black space background */
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Optional starfield / subtle glow */
+body {
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 1px, transparent 1px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.05) 1px, transparent 1px),
+        radial-gradient(circle at 60% 75%, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 240px 240px;
+}
+
+/* =========================
    EVENTS PAGE
 ========================= */
 
 .events-page {
     padding: 0 12px 40px;
+    background: transparent;
 }
 
 /* EVENT STATUS */
@@ -79,6 +103,8 @@
     justify-content: center;
     padding: 6px;
     text-align: center;
+    background: rgba(255,255,255,.03);
+    color: white;
 }
 
 .has-event {
@@ -122,6 +148,8 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    background: #bd50cb;
+    color: white;
 }
 
 /* MOBILE */
