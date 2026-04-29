@@ -95,6 +95,32 @@ body.page-photos .site-logo {
 }
 
 /* =========================
+   HEADER STATE CONTROL FIX
+   (ensures CSS fully controls logo)
+========================= */
+
+.site-logo {
+    filter: none; /* IMPORTANT reset so JS doesn't interfere */
+}
+
+/* OVERLAY TEXT POSITION FIX */
+.logo-container {
+    position: relative;
+}
+
+.page-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    z-index: 5;
+
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+}
+
+/* =========================
    EVENTS PAGE
 ========================= */
 
