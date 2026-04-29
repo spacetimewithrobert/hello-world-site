@@ -3,8 +3,6 @@ const HEADER_HTML = `
 
     <div class="logo-container">
         <img src="images/logo.jpg" class="site-logo" id="siteLogo">
-
-        <!-- STATUS TEXT OVERLAY (THIS IS YOUR SINGLE SOURCE OF TRUTH) -->
         <div class="page-label" id="pageLabel"></div>
     </div>
 
@@ -27,9 +25,45 @@ function getCurrentPage() {
     return "events";
 }
 
-function applyPageState(page) {
+/**
+ * GLOBAL EVENT STATE ENGINE HOOK
+ * Events page can call this later
+ */
+function setHeaderState(state) {
     const logo = document.getElementById("siteLogo");
     const label = document.getElementById("pageLabel");
+
+    if (!logo || !label) return;
+
+    // reset classes
+    logo.classList.remove("filter-about", "filter-contact", "filter-photos", "filter-events", "grayscale");
+
+    switch (state) {
+
+        case "PENDING":
+            logo.classList.add("grayscale");
+            label.textContent = "PENDING";
+            break;
+
+        case "GO":
+            logo.classList.add("filter-events");
+            label.textContent = "GO";
+            break;
+
+        case "NO_GO":
+            logo.classList.add("grayscale");
+            logo.style.filter = "grayscale(1) sepia(1) hue-rotate(-50deg) saturate(4)";
+            label.textContent = "NO GO";
+            break;
+
+        default:
+            logo.classList.add("filter-events");
+            label.textContent = "EVENTS";
+    }
+}
+
+function applyPageState(page) {
+    const logo = document.getElementById("siteLogo");
 
     document.querySelectorAll(".site-nav a").forEach(a => {
         a.classList.toggle("active", a.dataset.page === page);
@@ -42,10 +76,10 @@ function applyPageState(page) {
         events: "EVENTS"
     };
 
-    logo.className = "site-logo";
+    setHeaderState("DEFAULT");
 
     logo.classList.add(`filter-${page}`);
-    label.textContent = states[page] || "EVENTS";
+    document.getElementById("pageLabel").textContent = states[page] || "EVENTS";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
