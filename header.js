@@ -3,6 +3,8 @@ const HEADER_HTML = `
 
     <div class="logo-container">
         <img src="images/logo.jpg" class="site-logo" id="siteLogo">
+
+        <!-- STATUS TEXT OVERLAY (THIS IS YOUR SINGLE SOURCE OF TRUTH) -->
         <div class="page-label" id="pageLabel"></div>
     </div>
 
@@ -22,7 +24,7 @@ function getCurrentPage() {
     if (path.includes("about")) return "about";
     if (path.includes("contact")) return "contact";
     if (path.includes("photos")) return "photos";
-    return "events"; // default homepage
+    return "events";
 }
 
 function applyPageState(page) {
@@ -30,37 +32,27 @@ function applyPageState(page) {
     const label = document.getElementById("pageLabel");
 
     document.querySelectorAll(".site-nav a").forEach(a => {
-        if (a.dataset.page === page) {
-            a.classList.add("active");
-        }
+        a.classList.toggle("active", a.dataset.page === page);
     });
 
-    switch (page) {
-        case "about":
-            logo.classList.add("filter-about");
-            label.textContent = "ABOUT";
-            break;
+    const states = {
+        about: "ABOUT",
+        contact: "CONTACT",
+        photos: "PHOTOS",
+        events: "EVENTS"
+    };
 
-        case "contact":
-            logo.classList.add("filter-contact");
-            label.textContent = "CONTACT";
-            break;
+    logo.className = "site-logo";
 
-        case "photos":
-            logo.classList.add("filter-photos");
-            label.textContent = "PHOTOS";
-            break;
-
-        default:
-            logo.classList.add("filter-events");
-            label.textContent = "EVENTS";
-    }
+    logo.classList.add(`filter-${page}`);
+    label.textContent = states[page] || "EVENTS";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     const mount = document.getElementById("site-header");
+    if (!mount) return;
+
     mount.innerHTML = HEADER_HTML;
 
-    const page = getCurrentPage();
-    applyPageState(page);
+    applyPageState(getCurrentPage());
 });
