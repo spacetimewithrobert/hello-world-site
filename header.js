@@ -30,35 +30,28 @@ function getCurrentPage() {
  * Events page can call this later
  */
 function setHeaderState(state) {
-    const logo = document.getElementById("siteLogo");
+    const body = document.body;
     const label = document.getElementById("pageLabel");
 
-    if (!logo || !label) return;
+    if (!label) return;
 
-    // reset classes
-    logo.classList.remove("filter-about", "filter-contact", "filter-photos", "filter-events", "grayscale");
+    // reset all states
+    body.classList.remove("status-go", "status-pending", "status-nogo");
 
     switch (state) {
-
-        case "PENDING":
-            logo.classList.add("grayscale");
-            label.textContent = "PENDING";
-            break;
-
         case "GO":
-            logo.classList.add("filter-events");
+            body.classList.add("status-go");
             label.textContent = "GO";
             break;
 
         case "NO_GO":
-            logo.classList.add("grayscale");
-            logo.style.filter = "grayscale(1) sepia(1) hue-rotate(-50deg) saturate(4)";
+            body.classList.add("status-nogo");
             label.textContent = "NO GO";
             break;
 
         default:
-            logo.classList.add("filter-events");
-            label.textContent = "EVENTS";
+            body.classList.add("status-pending");
+            label.textContent = "PENDING";
     }
 }
 
@@ -78,7 +71,6 @@ function applyPageState(page) {
 
     setHeaderState("DEFAULT");
 
-    logo.classList.add(`filter-${page}`);
     document.getElementById("pageLabel").textContent = states[page] || "EVENTS";
 }
 
