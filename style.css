@@ -1,181 +1,137 @@
 /* =========================
-   STWR GLOBAL RESET
+   EVENTS PAGE
 ========================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.events-page {
+    padding: 0 12px 40px;
 }
 
-html {
-    scroll-behavior: smooth;
+/* EVENT STATUS */
+
+.event-container {
+    position: relative;
+    text-align: center;
+    color: white;
+    margin: 20px auto;
+    max-width: 320px;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #05070d;
-    color: #f2f4f8;
-    line-height: 1.6;
-}
-
-/* =========================
-   PAGE WRAPPER
-========================= */
-
-.container {
+.event-image {
     width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 16px;
+    max-width: 320px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
-/* =========================
-   HEADER
-========================= */
-
-header {
-    background: linear-gradient(to right, #08111f, #102845);
-    padding: 18px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-header h1 {
-    text-align: center;
-    font-size: 2rem;
-    color: #ffffff;
-    letter-spacing: 1px;
-}
-
-/* =========================
-   NAVIGATION
-========================= */
-
-nav {
-    margin-top: 12px;
-    text-align: center;
-}
-
-nav a {
-    color: #d8ecff;
-    text-decoration: none;
-    margin: 0 10px;
-    padding: 8px 12px;
+.event-overlay {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.65);
+    padding: 6px 10px;
     border-radius: 8px;
-    transition: 0.25s ease;
+    display: none;
 }
 
-nav a:hover {
-    background: rgba(255,255,255,0.08);
-    color: #ffffff;
+.statusText {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    font-weight: bold;
+    display: none;
+    text-shadow: 0 0 10px black;
 }
 
-/* =========================
-   MAIN CONTENT
-========================= */
+.goText { color: #00ff00; }
+.pendingText { color: #ffffff; }
+.noGoText { color: #ff3333; }
 
-main {
-    padding: 30px 0;
+.grayscale {
+    filter: grayscale(100%);
 }
 
-section {
-    margin-bottom: 40px;
+.red-tint {
+    filter: sepia(1) hue-rotate(-50deg) saturate(6);
 }
 
-h2 {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
-    color: #9fd3ff;
+/* CALENDAR */
+
+.calendar-container {
+    max-width: 520px;
+    margin: 40px auto;
 }
 
-p {
-    margin-bottom: 16px;
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
 }
 
-/* =========================
-   CARD PANELS
-========================= */
-
-.card {
-    background: #0d1524;
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    margin-bottom: 20px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.button,
-button {
-    display: inline-block;
-    background: #2e8fff;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: 0.25s ease;
-}
-
-.button:hover,
-button:hover {
-    background: #5ea9ff;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    margin-top: 40px;
-    padding: 24px 0;
+.day {
+    min-height: 52px;
+    border: 1px solid #bd50cb;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
     text-align: center;
-    color: #9ba9bb;
-    font-size: 0.95rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
 }
 
-/* =========================
-   CALENDAR POPUP SUPPORT
-========================= */
-
-.modal {
-    background: rgba(0,0,0,0.75);
+.has-event {
+    background: #2A2D44;
 }
 
-.popup-content {
-    background: #101a2c;
-    color: white;
-    border-radius: 14px;
+/* POPUP */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: none;
+    z-index: 999;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(420px, calc(100% - 32px));
+    background: #1a001a;
+    border: 2px solid #bd50cb;
+    border-radius: 12px;
     padding: 20px;
+    color: white;
+    text-align: center;
+    display: none;
+    z-index: 1000;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.popup a {
+    color: #ff66cc;
+    font-weight: bold;
+}
 
-@media (max-width: 768px) {
+.popup-close-btn {
+    margin-top: 14px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-    header h1 {
-        font-size: 1.5rem;
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .statusText {
+        font-size: 28px;
     }
 
-    nav a {
-        display: inline-block;
-        margin: 6px 4px;
+    .popup {
+        font-size: 20px;
     }
-
-    h2 {
-        font-size: 1.4rem;
-    }
-
-    .container {
-        padding: 0 14px;
-    }
-
 }
