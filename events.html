@@ -4,242 +4,191 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Events | SpaceTime With Robert</title>
+<meta name="description" content="Upcoming SpaceTime With Robert telescope outreach events, schedule updates, and event locations.">
 <link rel="stylesheet" href="style.css">
-
-<style>
-/* ===== EVENT STATUS ===== */
-#eventContainer {
-    text-align: center;
-    color: white;
-    font-family: Arial, sans-serif;
-    position: relative;
-}
-
-#eventImage {
-    max-width: 320px;
-    display: block;
-    margin: 0 auto;
-}
-
-#eventOverlayText, #eventOverlayLocation {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.6);
-    padding: 6px 10px;
-    border-radius: 8px;
-    display: none;
-}
-
-#eventOverlayText { top: 50%; }
-#eventOverlayLocation { top: 60%; }
-
-.statusText {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 36px;
-    display: none;
-}
-
-.goText { color: #00ff00; }
-.pendingText { color: white; }
-.noGoText { color: red; }
-
-.grayscale { filter: grayscale(100%); }
-.red-tint { filter: sepia(1) hue-rotate(-50deg) saturate(6); }
-
-/* ===== CALENDAR ===== */
-.calendar-container {
-    max-width: 512px;
-    margin: 40px auto;
-    padding: 0 12px;
-    box-sizing: border-box;
-}
-
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-}
-
-.day {
-    border: 1px solid #bd50cb;
-    padding: 5px;
-    text-align: center;
-    border-radius: 6px;
-    min-height: 48px;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: none;
-}
-
-.popup {
-  font-size: 18px;
-  max-width: min(90vw, 420px);
-  width: calc(100% - 32px);
-  box-sizing: border-box;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #1a001a;
-  padding: 20px;
-  border: 2px solid #bd50cb;
-  border-radius: 10px;
-  display: none;
-  color: white;
-  text-align: center;
-}
-
-.popup a {
-  color: #ff66cc;
-  font-weight: bold;
-}
-
-@media (max-width: 600px) {
-  .popup {
-    font-size: 22px;
-    padding: 24px;
-  }
-}
-</style>
 </head>
+
 <body>
 
-<header>
-  <h1>SpaceTime With Robert</h1>
+<header class="site-header">
+    <h1>SpaceTime With Robert</h1>
 </header>
 
-<figure id="eventContainer">
-  <img id="eventImage" src="images/logo.jpg" alt="SpaceTime With Robert logo">
-  <div id="eventOverlayText"></div>
-  <div id="eventOverlayLocation"></div>
-  <div id="goStatusText" class="statusText goText">GO</div>
-  <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
-  <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
-</figure>
+<main class="events-page">
 
-<div class="calendar-container">
-  <div id="calendar" class="calendar"></div>
+    <!-- EVENT STATUS -->
+    <section class="event-status-section">
+        <figure id="eventContainer" class="event-container">
+            <img
+                id="eventImage"
+                src="images/logo.jpg"
+                alt="SpaceTime With Robert logo"
+                class="event-image"
+            >
+
+            <figcaption id="eventOverlayText" class="event-overlay"></figcaption>
+            <div id="eventOverlayLocation" class="event-overlay"></div>
+
+            <div id="goStatusText" class="statusText goText">GO</div>
+            <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
+            <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
+        </figure>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="calendar-section">
+        <div class="calendar-container">
+            <div id="calendar" class="calendar"></div>
+        </div>
+    </section>
+
+</main>
+
+<!-- POPUP -->
+<div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+<div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+    <div id="popup-content"></div>
+    <button class="popup-close-btn" onclick="closePopup()">Close</button>
 </div>
 
-<div id="overlay" class="overlay"></div>
-<div id="popup" class="popup">
-  <div id="popup-content"></div>
-  <button onclick="closePopup()">Close</button>
-</div>
-
+<!-- EVENT DATA -->
 <script id="event-data" type="application/json">
 {
   "260503": {
     "description": "SPACETIME! (PENDING)",
     "startTime": "18:00",
     "endTime": "21:00",
-    "location": { "lat": 48.754048, "lon": -122.50088 }
+    "location": {
+      "lat": 48.754048,
+      "lon": -122.50088
+    }
   }
 }
 </script>
 
 <script>
 const SETTINGS = {
-  switchTime: 12,
-  overrideGo: false,
-  eventDay: 0
+    switchTime: 12,
+    overrideGo: false,
+    eventDay: 0
 };
 
 function getEvents() {
-  return JSON.parse(document.getElementById('event-data').textContent);
+    const raw = document.getElementById("event-data").textContent;
+    return JSON.parse(raw);
+}
+
+function hideStatusText() {
+    document.getElementById("goStatusText").style.display = "none";
+    document.getElementById("pendingStatusText").style.display = "none";
+    document.getElementById("noGoStatusText").style.display = "none";
+}
+
+function resetImageClasses() {
+    const img = document.getElementById("eventImage");
+    img.classList.remove("grayscale", "red-tint");
 }
 
 function openPopup(content) {
-  document.getElementById('popup-content').innerHTML = content;
-  document.getElementById('popup').style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
+    document.getElementById("popup-content").innerHTML = content;
+    document.getElementById("popup").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
 }
 
 function closePopup() {
-  document.getElementById('popup').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
 }
 
 function updateEventStatus() {
-  const img = document.getElementById('eventImage');
-  const go = document.getElementById('goStatusText');
-  const pending = document.getElementById('pendingStatusText');
-  const noGo = document.getElementById('noGoStatusText');
+    const img = document.getElementById("eventImage");
+    const goText = document.getElementById("goStatusText");
+    const pendingText = document.getElementById("pendingStatusText");
+    const noGoText = document.getElementById("noGoStatusText");
 
-  const now = new Date();
-  const isSunday = now.getDay() === SETTINGS.eventDay;
-  const afterSwitch = now.getHours() >= SETTINGS.switchTime;
+    const now = new Date();
+    const isEventDay = now.getDay() === SETTINGS.eventDay;
+    const afterSwitch = now.getHours() >= SETTINGS.switchTime;
 
-  if (SETTINGS.overrideGo && isSunday) {
-    go.style.display = 'block';
-  } else if (isSunday && afterSwitch) {
-    img.classList.add('red-tint');
-    noGo.style.display = 'block';
-  } else {
-    img.classList.add('grayscale');
-    pending.style.display = 'block';
-  }
+    hideStatusText();
+    resetImageClasses();
+
+    if (SETTINGS.overrideGo && isEventDay) {
+        goText.style.display = "block";
+        return;
+    }
+
+    if (isEventDay && afterSwitch) {
+        img.classList.add("red-tint");
+        noGoText.style.display = "block";
+        return;
+    }
+
+    img.classList.add("grayscale");
+    pendingText.style.display = "block";
 }
 
 function createCalendar() {
-  const calendar = document.getElementById('calendar');
-  calendar.innerHTML = '';
+    const calendar = document.getElementById("calendar");
+    calendar.innerHTML = "";
 
-  const events = getEvents();
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const events = getEvents();
 
-  const startDate = new Date(today);
-  startDate.setDate(today.getDate() - today.getDay());
+    const now = new Date();
+    const today = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+    );
 
-  for (let i = 0; i < 28; i++) {
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - today.getDay());
 
-    const key = String(date.getFullYear()).slice(2) +
-      String(date.getMonth() + 1).padStart(2, '0') +
-      String(date.getDate()).padStart(2, '0');
+    for (let i = 0; i < 28; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
 
-    const day = document.createElement('div');
-    day.className = 'day';
-    day.innerHTML = `<strong>${date.getDate()}</strong>`;
+        const key =
+            String(date.getFullYear()).slice(2) +
+            String(date.getMonth() + 1).padStart(2, "0") +
+            String(date.getDate()).padStart(2, "0");
 
-    if (events[key]) {
-      day.style.background = '#2A2D44';
-      day.style.cursor = 'pointer';
+        const day = document.createElement("div");
+        day.className = "day";
+        day.innerHTML = `<strong>${date.getDate()}</strong>`;
 
-      day.onclick = () => {
-        const e = events[key];
-        openPopup(`
-          <h3>${date.toDateString()}</h3>
-          <p>${e.description}</p>
-          <p><strong>${e.startTime} - ${e.endTime}</strong></p>
-          <p><a href="https://www.google.com/maps?q=${e.location.lat},${e.location.lon}" target="_blank">View Location</a></p>
-        `);
-      };
+        if (events[key]) {
+            const event = events[key];
+
+            day.classList.add("has-event");
+            day.style.cursor = "pointer";
+
+            day.addEventListener("click", () => {
+                openPopup(`
+                    <h3 id="popup-title">${date.toDateString()}</h3>
+                    <p>${event.description}</p>
+                    <p><strong>${event.startTime} - ${event.endTime}</strong></p>
+                    <p>
+                        <a href="https://www.google.com/maps?q=${event.location.lat},${event.location.lon}" target="_blank" rel="noopener noreferrer">
+                            View Location
+                        </a>
+                    </p>
+                `);
+            });
+        }
+
+        calendar.appendChild(day);
     }
-
-    calendar.appendChild(day);
-  }
 }
 
-function init() {
-  updateEventStatus();
-  createCalendar();
+function initEventsPage() {
+    updateEventStatus();
+    createCalendar();
 }
 
-init();
+document.addEventListener("DOMContentLoaded", initEventsPage);
 </script>
+
 </body>
 </html>
