@@ -1,18 +1,17 @@
 /* =========================
-   GLOBAL SITE COLORS
-   Match original STWR theme
+   GLOBAL THEME (STWR BASE)
 ========================= */
 
 html,
 body {
     margin: 0;
     padding: 0;
-    background: #000000;   /* deep black space background */
+    background: #000000;
     color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Optional starfield / subtle glow */
+/* starfield effect */
 body {
     background-image:
         radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 1px, transparent 1px),
@@ -22,12 +21,85 @@ body {
 }
 
 /* =========================
+   GLOBAL HEADER
+========================= */
+
+.site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+/* SINGLE SOURCE OF TRUTH FOR LOGO */
+.site-logo {
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transition: filter 0.3s ease;
+}
+
+/* NAV */
+.site-nav {
+    display: flex;
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.site-nav a {
+    text-decoration: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.site-nav a.active {
+    background: #bd50cb;
+}
+
+/* =========================
+   STATUS ENGINE (NEW CORE SYSTEM)
+   Controlled ONLY by BODY class
+========================= */
+
+/* EVENTS */
+body.page-events .site-logo {
+    filter: grayscale(1);
+}
+
+/* GO STATE */
+body.status-go .site-logo {
+    filter: brightness(1.3) saturate(1.4) hue-rotate(80deg);
+}
+
+/* PENDING STATE */
+body.status-pending .site-logo {
+    filter: brightness(1.1);
+}
+
+/* NO-GO STATE */
+body.status-nogo .site-logo {
+    filter: grayscale(1) contrast(1.2) brightness(0.8);
+}
+
+/* CONTACT */
+body.page-contact .site-logo {
+    filter: sepia(1) hue-rotate(-30deg) saturate(5);
+}
+
+/* PHOTOS */
+body.page-photos .site-logo {
+    filter: brightness(1.3) contrast(1.1);
+}
+
+/* =========================
    EVENTS PAGE
 ========================= */
 
 .events-page {
     padding: 0 12px 40px;
-    background: transparent;
 }
 
 /* EVENT STATUS */
@@ -35,29 +107,16 @@ body {
 .event-container {
     position: relative;
     text-align: center;
-    color: white;
     margin: 20px auto;
     max-width: 320px;
 }
 
 .event-image {
     width: 100%;
-    max-width: 320px;
-    height: auto;
     display: block;
-    margin: 0 auto;
 }
 
-.event-overlay {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,.65);
-    padding: 6px 10px;
-    border-radius: 8px;
-    display: none;
-}
-
+/* STATUS TEXT OVERLAY */
 .statusText {
     position: absolute;
     top: 25%;
@@ -65,23 +124,17 @@ body {
     transform: translateX(-50%);
     font-size: 36px;
     font-weight: bold;
-    display: none;
     text-shadow: 0 0 10px black;
+    display: none;
 }
 
 .goText { color: #00ff00; }
 .pendingText { color: #ffffff; }
 .noGoText { color: #ff3333; }
 
-.grayscale {
-    filter: grayscale(100%);
-}
-
-.red-tint {
-    filter: sepia(1) hue-rotate(-50deg) saturate(6);
-}
-
-/* CALENDAR */
+/* =========================
+   CALENDAR
+========================= */
 
 .calendar-container {
     max-width: 520px;
@@ -101,17 +154,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px;
-    text-align: center;
     background: rgba(255,255,255,.03);
-    color: white;
 }
 
 .has-event {
     background: #2A2D44;
 }
 
-/* POPUP */
+/* =========================
+   POPUP
+========================= */
 
 .overlay {
     position: fixed;
@@ -152,7 +204,9 @@ body {
     color: white;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 600px) {
     .statusText {
@@ -162,68 +216,4 @@ body {
     .popup {
         font-size: 20px;
     }
-}
-
-/* GLOBAL HEADER */
-
-.site-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 10px;
-}
-
-.logo-container {
-    position: relative;
-    text-align: center;
-}
-
-.site-logo {
-    width: 120px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    transition: filter 0.3s ease;
-}
-
-.page-label {
-    margin-top: 6px;
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-.site-nav {
-    display: flex;
-    gap: 14px;
-    margin-top: 12px;
-}
-
-.site-nav a {
-    text-decoration: none;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 6px;
-}
-
-.site-nav a.active {
-    background: #bd50cb;
-}
-
-/* LOGO FILTER STATES */
-
-.filter-events {
-    filter: grayscale(1);
-}
-
-.filter-about {
-    filter: hue-rotate(200deg) saturate(1.2);
-}
-
-.filter-contact {
-    filter: sepia(1) hue-rotate(-30deg) saturate(5);
-}
-
-.filter-photos {
-    filter: brightness(1.3) contrast(1.1);
 }
