@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Events | SpaceTime With Robert</title>
-<meta name="description" content="Upcoming SpaceTime With Robert telescope outreach events, schedule updates, and event locations.">
+<meta name="description" content="Upcoming SpaceTime With Robert telescope outreach events, schedule updates, and locations.">
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,40 +14,50 @@
     <h1>SpaceTime With Robert</h1>
 </header>
 
-<main class="events-page">
+<main class="page">
 
-    <!-- EVENT STATUS -->
-    <section class="event-status-section">
-        <figure id="eventContainer" class="event-container">
-            <img
-                id="eventImage"
-                src="images/logo.jpg"
-                alt="SpaceTime With Robert logo"
-                class="event-image"
-            >
+    <section class="container">
 
-            <figcaption id="eventOverlayText" class="event-overlay"></figcaption>
-            <div id="eventOverlayLocation" class="event-overlay"></div>
+        <!-- EVENT STATUS -->
+        <section class="event-status">
 
-            <div id="goStatusText" class="statusText goText">GO</div>
-            <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
-            <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
-        </figure>
-    </section>
+            <figure id="eventContainer" class="event-container">
 
-    <!-- CALENDAR -->
-    <section class="calendar-section">
-        <div class="calendar-container">
-            <div id="calendar" class="calendar"></div>
-        </div>
+                <img
+                    id="eventImage"
+                    src="images/logo.jpg"
+                    alt="SpaceTime With Robert logo"
+                    class="event-image"
+                >
+
+                <div id="eventOverlayText" class="event-overlay"></div>
+                <div id="eventOverlayLocation" class="event-overlay"></div>
+
+                <div id="goStatusText" class="statusText goText">GO</div>
+                <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
+                <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
+
+            </figure>
+
+        </section>
+
+        <!-- CALENDAR -->
+        <section class="calendar-section">
+
+            <div class="calendar-container">
+                <div id="calendar" class="calendar"></div>
+            </div>
+
+        </section>
+
     </section>
 
 </main>
 
-<!-- POPUP -->
+<!-- POPUP SYSTEM (kept global-style reusable) -->
 <div id="overlay" class="overlay" onclick="closePopup()"></div>
 
-<div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+<div id="popup" class="popup" role="dialog" aria-modal="true">
     <div id="popup-content"></div>
     <button class="popup-close-btn" onclick="closePopup()">Close</button>
 </div>
@@ -75,19 +85,7 @@ const SETTINGS = {
 };
 
 function getEvents() {
-    const raw = document.getElementById("event-data").textContent;
-    return JSON.parse(raw);
-}
-
-function hideStatusText() {
-    document.getElementById("goStatusText").style.display = "none";
-    document.getElementById("pendingStatusText").style.display = "none";
-    document.getElementById("noGoStatusText").style.display = "none";
-}
-
-function resetImageClasses() {
-    const img = document.getElementById("eventImage");
-    img.classList.remove("grayscale", "red-tint");
+    return JSON.parse(document.getElementById("event-data").textContent);
 }
 
 function openPopup(content) {
@@ -103,30 +101,33 @@ function closePopup() {
 
 function updateEventStatus() {
     const img = document.getElementById("eventImage");
-    const goText = document.getElementById("goStatusText");
-    const pendingText = document.getElementById("pendingStatusText");
-    const noGoText = document.getElementById("noGoStatusText");
+    const go = document.getElementById("goStatusText");
+    const pending = document.getElementById("pendingStatusText");
+    const noGo = document.getElementById("noGoStatusText");
 
     const now = new Date();
     const isEventDay = now.getDay() === SETTINGS.eventDay;
     const afterSwitch = now.getHours() >= SETTINGS.switchTime;
 
-    hideStatusText();
-    resetImageClasses();
+    go.style.display = "none";
+    pending.style.display = "none";
+    noGo.style.display = "none";
+
+    img.classList.remove("grayscale", "red-tint");
 
     if (SETTINGS.overrideGo && isEventDay) {
-        goText.style.display = "block";
+        go.style.display = "block";
         return;
     }
 
     if (isEventDay && afterSwitch) {
         img.classList.add("red-tint");
-        noGoText.style.display = "block";
+        noGo.style.display = "block";
         return;
     }
 
     img.classList.add("grayscale");
-    pendingText.style.display = "block";
+    pending.style.display = "block";
 }
 
 function createCalendar() {
@@ -136,11 +137,7 @@ function createCalendar() {
     const events = getEvents();
 
     const now = new Date();
-    const today = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate()
-    );
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     const startDate = new Date(today);
     startDate.setDate(today.getDate() - today.getDay());
@@ -162,32 +159,29 @@ function createCalendar() {
             const event = events[key];
 
             day.classList.add("has-event");
-            day.style.cursor = "pointer";
 
-            day.addEventListener("click", () => {
+            day.onclick = () => {
                 openPopup(`
-                    <h3 id="popup-title">${date.toDateString()}</h3>
+                    <h3>${date.toDateString()}</h3>
                     <p>${event.description}</p>
                     <p><strong>${event.startTime} - ${event.endTime}</strong></p>
                     <p>
-                        <a href="https://www.google.com/maps?q=${event.location.lat},${event.location.lon}" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.google.com/maps?q=${event.location.lat},${event.location.lon}" target="_blank">
                             View Location
                         </a>
                     </p>
                 `);
-            });
+            };
         }
 
         calendar.appendChild(day);
     }
 }
 
-function initEventsPage() {
+document.addEventListener("DOMContentLoaded", () => {
     updateEventStatus();
     createCalendar();
-}
-
-document.addEventListener("DOMContentLoaded", initEventsPage);
+});
 </script>
 
 </body>
