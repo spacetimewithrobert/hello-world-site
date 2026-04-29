@@ -67,6 +67,7 @@
     padding: 5px;
     text-align: center;
     border-radius: 6px;
+    min-height: 48px;
 }
 
 .overlay {
@@ -92,91 +93,90 @@
   color: white;
   text-align: center;
 }
-    
 </style>
-
 </head>
-
 <body>
 
 <header>
   <h1>SpaceTime With Robert</h1>
 </header>
 
-<!-- ===== EVENT STATUS ===== -->
 <figure id="eventContainer">
-    <img id="eventImage" src="images/logo.jpg">
-    <div id="eventOverlayText"></div>
-    <div id="eventOverlayLocation"></div>
-    <div id="goStatusText" class="statusText goText">GO</div>
-    <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
-    <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
+  <img id="eventImage" src="images/logo.jpg" alt="SpaceTime With Robert logo">
+  <div id="eventOverlayText"></div>
+  <div id="eventOverlayLocation"></div>
+  <div id="goStatusText" class="statusText goText">GO</div>
+  <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
+  <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
 </figure>
 
-<!-- ===== CALENDAR ===== -->
 <div class="calendar-container">
-    <div id="calendar" class="calendar"></div>
+  <div id="calendar" class="calendar"></div>
 </div>
 
 <div id="overlay" class="overlay"></div>
-
 <div id="popup" class="popup">
   <div id="popup-content"></div>
   <button onclick="closePopup()">Close</button>
 </div>
 
-<script>
+<script id="event-data" type="application/json">
+{
+  "260503": {
+    "description": "SPACETIME! (PENDING)",
+    "startTime": "18:00",
+    "endTime": "21:00",
+    "location": { "lat": 48.754048, "lon": -122.50088 }
+  }
+}
+</script>
 
-/* ===== SETTINGS ===== */
+<script>
 const SETTINGS = {
-    switchTime: 12,
-    overrideGo: false,
-    eventDay: 0
+  switchTime: 12,
+  overrideGo: false,
+  eventDay: 0
 };
 
-/* ===== GET EVENT DATA ===== */
 function getEvents() {
-  return JSON.parse(document.getElementById("event-data").textContent);
+  return JSON.parse(document.getElementById('event-data').textContent);
 }
 
-/* ===== POPUP ===== */
 function openPopup(content) {
-  document.getElementById("popup-content").innerHTML = content;
-  document.getElementById("popup").style.display = "block";
-  document.getElementById("overlay").style.display = "block";
+  document.getElementById('popup-content').innerHTML = content;
+  document.getElementById('popup').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
 }
 
 function closePopup() {
-  document.getElementById("popup").style.display = "none";
-  document.getElementById("overlay").style.display = "none";
+  document.getElementById('popup').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
 }
 
-/* ===== EVENT STATUS ===== */
 function updateEventStatus() {
-    const img = document.getElementById("eventImage");
-    const go = document.getElementById("goStatusText");
-    const pending = document.getElementById("pendingStatusText");
-    const noGo = document.getElementById("noGoStatusText");
+  const img = document.getElementById('eventImage');
+  const go = document.getElementById('goStatusText');
+  const pending = document.getElementById('pendingStatusText');
+  const noGo = document.getElementById('noGoStatusText');
 
-    const now = new Date();
-    const isSunday = now.getDay() === SETTINGS.eventDay;
-    const afterSwitch = now.getHours() >= SETTINGS.switchTime;
+  const now = new Date();
+  const isSunday = now.getDay() === SETTINGS.eventDay;
+  const afterSwitch = now.getHours() >= SETTINGS.switchTime;
 
-    if (SETTINGS.overrideGo && isSunday) {
-        go.style.display = "block";
-    } else if (isSunday && afterSwitch) {
-        img.classList.add("red-tint");
-        noGo.style.display = "block";
-    } else {
-        img.classList.add("grayscale");
-        pending.style.display = "block";
-    }
+  if (SETTINGS.overrideGo && isSunday) {
+    go.style.display = 'block';
+  } else if (isSunday && afterSwitch) {
+    img.classList.add('red-tint');
+    noGo.style.display = 'block';
+  } else {
+    img.classList.add('grayscale');
+    pending.style.display = 'block';
+  }
 }
 
-/* ===== CALENDAR ===== */
 function createCalendar() {
-  const calendar = document.getElementById("calendar");
-  calendar.innerHTML = "";
+  const calendar = document.getElementById('calendar');
+  calendar.innerHTML = '';
 
   const events = getEvents();
   const today = new Date();
@@ -186,30 +186,24 @@ function createCalendar() {
     date.setDate(today.getDate() + i);
 
     const key = String(date.getFullYear()).slice(2) +
-      String(date.getMonth()+1).padStart(2,"0") +
-      String(date.getDate()).padStart(2,"0");
+      String(date.getMonth() + 1).padStart(2, '0') +
+      String(date.getDate()).padStart(2, '0');
 
-    const day = document.createElement("div");
-    day.className = "day";
-
+    const day = document.createElement('div');
+    day.className = 'day';
     day.innerHTML = `<strong>${date.getDate()}</strong>`;
 
     if (events[key]) {
-      day.style.background = "#2A2D44";
-      day.style.cursor = "pointer";
+      day.style.background = '#2A2D44';
+      day.style.cursor = 'pointer';
 
       day.onclick = () => {
         const e = events[key];
-
         openPopup(`
           <h3>${date.toDateString()}</h3>
           <p>${e.description}</p>
           <p><strong>${e.startTime} - ${e.endTime}</strong></p>
-          <p>
-            <a href="https://www.google.com/maps?q=${e.location.lat},${e.location.lon}" target="_blank">
-              View Location
-            </a>
-          </p>
+          <p><a href="https://www.google.com/maps?q=${e.location.lat},${e.location.lon}" target="_blank">View Location</a></p>
         `);
       };
     }
@@ -218,15 +212,12 @@ function createCalendar() {
   }
 }
 
-/* ===== INIT ===== */
 function init() {
   updateEventStatus();
   createCalendar();
 }
 
 init();
-
 </script>
-
 </body>
 </html>
