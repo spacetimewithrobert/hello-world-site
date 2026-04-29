@@ -17,10 +17,10 @@
 
     <section class="container">
 
-        <!-- EVENT STATUS -->
+        <!-- EVENT STATUS (OVERLAY ONLY - NO IMAGE DEPENDENCY) -->
         <section class="event-status">
 
-            <figure id="eventContainer" class="event-container">
+            <div id="eventContainer" class="event-container">
 
                 <div id="eventOverlayText" class="event-overlay"></div>
                 <div id="eventOverlayLocation" class="event-overlay"></div>
@@ -29,7 +29,7 @@
                 <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
                 <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
 
-            </figure>
+            </div>
 
         </section>
 
@@ -92,7 +92,6 @@ function closePopup() {
 }
 
 function updateEventStatus() {
-    const img = document.getElementById("eventImage");
     const go = document.getElementById("goStatusText");
     const pending = document.getElementById("pendingStatusText");
     const noGo = document.getElementById("noGoStatusText");
@@ -101,12 +100,9 @@ function updateEventStatus() {
     const isEventDay = now.getDay() === SETTINGS.eventDay;
     const afterSwitch = now.getHours() >= SETTINGS.switchTime;
 
-    // reset state
     go.style.display = "none";
     pending.style.display = "none";
     noGo.style.display = "none";
-
-    img.classList.remove("grayscale", "red-tint");
 
     if (SETTINGS.overrideGo && isEventDay) {
         go.style.display = "block";
@@ -114,12 +110,10 @@ function updateEventStatus() {
     }
 
     if (isEventDay && afterSwitch) {
-        img.classList.add("red-tint");
         noGo.style.display = "block";
         return;
     }
 
-    img.classList.add("grayscale");
     pending.style.display = "block";
 }
 
@@ -177,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<!-- GLOBAL HEADER SCRIPT (ONLY ONCE) -->
+<!-- GLOBAL HEADER SCRIPT -->
 <script src="header.js"></script>
 
 </body>
