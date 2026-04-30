@@ -1,17 +1,13 @@
-/* =========================
-   GLOBAL THEME (STWR BASE)
-========================= */
-
 html,
 body {
     margin: 0;
     padding: 0;
-    background: #000000;
-    color: #ffffff;
+    background: #000;
+    color: #fff;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* starfield effect */
+/* starfield */
 body {
     background-image:
         radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 1px, transparent 1px),
@@ -20,37 +16,49 @@ body {
     background-size: 240px 240px;
 }
 
-/* =========================
-   GLOBAL HEADER
-========================= */
+/* HEADER */
 
 .site-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 10px;
     text-align: center;
+    padding: 20px 10px;
 }
 
-/* SINGLE SOURCE OF TRUTH FOR LOGO */
+.logo-container {
+    position: relative;
+    display: inline-block;
+}
+
 .site-logo {
     width: 120px;
     height: auto;
     display: block;
-    margin: 0 auto;
-    transition: filter 0.3s ease;
+    transition: filter .3s ease;
+}
+
+.page-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0,0,0,.55);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 /* NAV */
+
 .site-nav {
     display: flex;
-    gap: 14px;
+    justify-content: center;
+    gap: 12px;
     margin-top: 12px;
+    flex-wrap: wrap;
 }
 
 .site-nav a {
+    color: #fff;
     text-decoration: none;
-    color: white;
     padding: 6px 10px;
     border-radius: 6px;
 }
@@ -59,183 +67,87 @@ body {
     background: #bd50cb;
 }
 
-/* =========================
-   STATUS ENGINE (NEW CORE SYSTEM)
-   Controlled ONLY by BODY class
-========================= */
+/* STATE ENGINE */
 
-/* EVENTS */
-body.page-events .site-logo {
+body.status-pending .site-logo {
     filter: grayscale(1);
 }
 
-/* GO STATE */
 body.status-go .site-logo {
-    filter: brightness(1.3) saturate(1.4) hue-rotate(80deg);
+    filter: brightness(1.2) saturate(1.4) hue-rotate(70deg);
 }
 
-/* PENDING STATE */
-body.status-pending .site-logo {
-    filter: brightness(1.1);
-}
-
-/* NO-GO STATE */
 body.status-nogo .site-logo {
-    filter: grayscale(1) contrast(1.2) brightness(0.8);
+    filter: grayscale(1) brightness(.7) contrast(1.2);
 }
 
-/* CONTACT */
-body.page-contact .site-logo {
-    filter: sepia(1) hue-rotate(-30deg) saturate(5);
-}
+/* CALENDAR */
 
-/* PHOTOS */
-body.page-photos .site-logo {
-    filter: brightness(1.3) contrast(1.1);
-}
-
-/* =========================
-   HEADER STATE CONTROL FIX
-   (ensures CSS fully controls logo)
-========================= */
-
-/* OVERLAY TEXT POSITION FIX */
-.logo-container {
-    position: relative;
-}
-
-.page-label {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    z-index: 5;
-
-    padding: 4px 8px;
-    border-radius: 6px;
-    background: rgba(0,0,0,0.5);
-    color: white;
-}
-
-/* =========================
-   EVENTS PAGE
-========================= */
-
-.events-page {
-    padding: 0 12px 40px;
-}
-
-/* EVENT STATUS */
-
-.event-container {
-    position: relative;
-    text-align: center;
-    margin: 20px auto;
-    max-width: 320px;
-}
-
-.event-image {
-    width: 100%;
-    display: block;
-}
-
-/* STATUS TEXT OVERLAY */
-.statusText {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 36px;
-    font-weight: bold;
-    text-shadow: 0 0 10px black;
-    display: none;
-}
-
-.goText { color: #00ff00; }
-.pendingText { color: #ffffff; }
-.noGoText { color: #ff3333; }
-
-/* =========================
-   CALENDAR
-========================= */
-
-.calendar-container {
-    max-width: 520px;
-    margin: 40px auto;
+.calendar-wrap {
+    max-width: 560px;
+    margin: 30px auto 50px;
+    padding: 0 12px;
 }
 
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    gap: 5px;
 }
 
 .day {
-    min-height: 52px;
+    min-height: 54px;
     border: 1px solid #bd50cb;
     border-radius: 6px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     background: rgba(255,255,255,.03);
 }
 
-.has-event {
+.day.has-event {
     background: #2A2D44;
+    cursor: pointer;
 }
 
-/* =========================
-   POPUP
-========================= */
+/* POPUP */
 
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.65);
+    background: rgba(0,0,0,.7);
     display: none;
-    z-index: 999;
 }
 
 .popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(420px, calc(100% - 32px));
+    transform: translate(-50%,-50%);
+    width: min(420px, calc(100% - 30px));
     background: #1a001a;
     border: 2px solid #bd50cb;
     border-radius: 12px;
     padding: 20px;
-    color: white;
     text-align: center;
     display: none;
-    z-index: 1000;
 }
 
-.popup a {
-    color: #ff66cc;
-    font-weight: bold;
-}
-
-.popup-close-btn {
+.popup button {
     margin-top: 14px;
-    padding: 10px 18px;
+    padding: 10px 16px;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     background: #bd50cb;
     color: white;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
 @media (max-width: 600px) {
-    .statusText {
-        font-size: 28px;
+    .site-logo {
+        width: 105px;
     }
 
-    .popup {
-        font-size: 20px;
+    .page-label {
+        font-size: 12px;
     }
 }
