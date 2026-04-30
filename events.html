@@ -4,167 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Events | SpaceTime With Robert</title>
-<meta name="description" content="Upcoming SpaceTime With Robert telescope outreach events, schedule updates, and locations.">
 <link rel="stylesheet" href="style.css">
+<script src="header.js"></script>
 </head>
 
 <body>
 
-<!-- GLOBAL HEADER -->
 <div id="site-header"></div>
 
-<main class="page">
-
-    <section class="container">
-
-        <!-- EVENT STATUS (OVERLAY ONLY - NO IMAGE DEPENDENCY) -->
-        <section class="event-status">
-
-            <div id="eventContainer" class="event-container">
-
-                <div id="eventOverlayText" class="event-overlay"></div>
-                <div id="eventOverlayLocation" class="event-overlay"></div>
-
-                <div id="goStatusText" class="statusText goText">GO</div>
-                <div id="pendingStatusText" class="statusText pendingText">PENDING</div>
-                <div id="noGoStatusText" class="statusText noGoText">NO GO</div>
-
-            </div>
-
-        </section>
-
-        <!-- CALENDAR -->
-        <section class="calendar-section">
-
-            <div class="calendar-container">
-                <div id="calendar" class="calendar"></div>
-            </div>
-
-        </section>
-
-    </section>
-
+<main class="calendar-wrap">
+    <div id="calendar" class="calendar"></div>
 </main>
 
-<!-- POPUP SYSTEM -->
 <div id="overlay" class="overlay" onclick="closePopup()"></div>
 
-<div id="popup" class="popup" role="dialog" aria-modal="true">
+<div id="popup" class="popup">
     <div id="popup-content"></div>
-    <button class="popup-close-btn" onclick="closePopup()">Close</button>
+    <button onclick="closePopup()">Close</button>
 </div>
-
-<!-- EVENT DATA -->
-<script id="event-data" type="application/json">
-{
-  "260503": {
-    "description": "SPACETIME! (PENDING)",
-    "startTime": "18:00",
-    "endTime": "21:00",
-    "location": {
-      "lat": 48.754048,
-      "lon": -122.50088
-    }
-  }
-}
-</script>
 
 <script>
 const SETTINGS = {
-    switchTime: 12,
-    overrideGo: false,
-    eventDay: 0
+    switchHour: 12,
+    eventDay: 0,
+    overrideGo: false
 };
 
-function getEvents() {
-    return JSON.parse(document.getElementById("event-data").textContent);
-}
+const EVENTS = {
+    "260503": {
+        description: "SPACETIME! (PENDING)",
+        start: "6:00 PM",
+        end: "9:00 PM"
+    }
+};
 
-function openPopup(content) {
-    document.getElementById("popup-content").innerHTML = content;
-    document.getElementById("popup").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-}
-
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-}
-
-function updateEventStatus() {
+function updateState() {
     const now = new Date();
     const isEventDay = now.getDay() === SETTINGS.eventDay;
-    const afterSwitch = now.getHours() >= SETTINGS.switchTime;
+    const afterSwitch = now.getHours() >= SETTINGS.switchHour;
 
     if (SETTINGS.overrideGo && isEventDay) {
-        window.setHeaderState?.("GO");
+        setHeaderState("GO");
         return;
     }
 
     if (isEventDay && afterSwitch) {
-        window.setHeaderState?.("NO_GO");
+        setHeaderState("NO_GO");
         return;
     }
 
-    window.setHeaderState?.("PENDING");
+    setHeaderState("PENDING");
 }
 
 function createCalendar() {
-    const calendar = document.getElementById("calendar");
-    calendar.innerHTML = "";
+    const cal = document.getElementById("calendar");
+    cal.innerHTML = "";
 
-    const events = getEvents();
-
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    const startDate = new Date(today);
-    startDate.setDate(today.getDate() - today.getDay());
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(today.getDate() - today.getDay());
 
     for (let i = 0; i < 28; i++) {
-        const date = new Date(startDate);
-        date.setDate(startDate.getDate() + i);
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
 
         const key =
-            String(date.getFullYear()).slice(2) +
-            String(date.getMonth() + 1).padStart(2, "0") +
-            String(date.getDate()).padStart(2, "0");
+            String(d.getFullYear()).slice(2) +
+            String(d.getMonth()+1).padStart(2,"0") +
+            String(d.getDate()).padStart(2,"0");
 
-        const day = document.createElement("div");
-        day.className = "day";
-        day.innerHTML = `<strong>${date.getDate()}</strong>`;
+        const cell = document.createElement("div");
+        cell.className = "day";
+        cell.textContent = d.getDate();
 
-        if (events[key]) {
-            const event = events[key];
+        if (EVENTS[key]) {
+            cell.classList.add("has-event");
 
-            day.classList.add("has-event");
-
-            day.onclick = () => {
+            cell.onclick = () => {
                 openPopup(`
-                    <h3>${date.toDateString()}</h3>
-                    <p>${event.description}</p>
-                    <p><strong>${event.startTime} - ${event.endTime}</strong></p>
-                    <p>
-                        <a href="https://www.google.com/maps?q=${event.location.lat},${event.location.lon}" target="_blank">
-                            View Location
-                        </a>
-                    </p>
+                    <h3>${d.toDateString()}</h3>
+                    <p>${EVENTS[key].description}</p>
+                    <p>${EVENTS[key].start} - ${EVENTS[key].end}</p>
                 `);
             };
         }
 
-        calendar.appendChild(day);
+        cal.appendChild(cell);
     }
 }
 
+function openPopup(html) {
+    document.getElementById("popup-content").innerHTML = html;
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("popup").style.display = "none";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    updateEventStatus();
     createCalendar();
+
+    setTimeout(() => {
+        updateState();
+    }, 50);
 });
 </script>
-
-<!-- GLOBAL HEADER SCRIPT -->
-<script src="header.js"></script>
 
 </body>
 </html>
