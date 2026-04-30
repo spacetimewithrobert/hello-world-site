@@ -29,7 +29,7 @@ body {
 }
 
 .site-logo {
-    width: 120px;
+    width: 300px;
     height: auto;
     display: block;
     transition: filter .3s ease;
@@ -144,7 +144,7 @@ body.status-nogo .site-logo {
 
 @media (max-width: 600px) {
     .site-logo {
-        width: 105px;
+        width: 220px;
     }
 
     .page-label {
