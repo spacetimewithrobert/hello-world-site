@@ -1,14 +1,19 @@
+<!-- events.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Events | SpaceTime With Robert</title>
+
 <link rel="stylesheet" href="style.css">
-<script src="header.js"></script>
+
+<script src="header.js" defer></script>
+<script src="calendar.js" defer></script>
 </head>
 
-<body>
+<body class="status-pending">
 
 <div id="site-header"></div>
 
@@ -16,102 +21,12 @@
     <div id="calendar" class="calendar"></div>
 </main>
 
-<div id="overlay" class="overlay" onclick="closePopup()"></div>
+<div id="overlay" class="overlay"></div>
 
 <div id="popup" class="popup">
     <div id="popup-content"></div>
-    <button onclick="closePopup()">Close</button>
+    <button id="closePopupBtn" type="button">Close</button>
 </div>
-
-<script>
-const SETTINGS = {
-    switchHour: 12,
-    eventDay: 0,
-    overrideGo: false
-};
-
-const EVENTS = {
-    "260503": {
-        description: "SPACETIME! (PENDING)",
-        start: "6:00 PM",
-        end: "9:00 PM"
-    }
-};
-
-function updateState() {
-    const now = new Date();
-    const isEventDay = now.getDay() === SETTINGS.eventDay;
-    const afterSwitch = now.getHours() >= SETTINGS.switchHour;
-
-    if (SETTINGS.overrideGo && isEventDay) {
-        setHeaderState("GO");
-        return;
-    }
-
-    if (isEventDay && afterSwitch) {
-        setHeaderState("NO_GO");
-        return;
-    }
-
-    setHeaderState("PENDING");
-}
-
-function createCalendar() {
-    const cal = document.getElementById("calendar");
-    cal.innerHTML = "";
-
-    const today = new Date();
-    const start = new Date(today);
-    start.setDate(today.getDate() - today.getDay());
-
-    for (let i = 0; i < 28; i++) {
-        const d = new Date(start);
-        d.setDate(start.getDate() + i);
-
-        const key =
-            String(d.getFullYear()).slice(2) +
-            String(d.getMonth()+1).padStart(2,"0") +
-            String(d.getDate()).padStart(2,"0");
-
-        const cell = document.createElement("div");
-        cell.className = "day";
-        cell.textContent = d.getDate();
-
-        if (EVENTS[key]) {
-            cell.classList.add("has-event");
-
-            cell.onclick = () => {
-                openPopup(`
-                    <h3>${d.toDateString()}</h3>
-                    <p>${EVENTS[key].description}</p>
-                    <p>${EVENTS[key].start} - ${EVENTS[key].end}</p>
-                `);
-            };
-        }
-
-        cal.appendChild(cell);
-    }
-}
-
-function openPopup(html) {
-    document.getElementById("popup-content").innerHTML = html;
-    document.getElementById("overlay").style.display = "block";
-    document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-    document.getElementById("overlay").style.display = "none";
-    document.getElementById("popup").style.display = "none";
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    createCalendar();
-
-    setTimeout(() => {
-        updateState();
-    }, 50);
-});
-</script>
 
 </body>
 </html>
