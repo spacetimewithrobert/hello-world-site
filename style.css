@@ -127,7 +127,7 @@ body.status-nogo {
     border: 2px solid var(--border);
 
     display: block;
-
+    
     transition:
         filter .35s ease,
         box-shadow .35s ease;
@@ -150,8 +150,7 @@ body.status-nogo .site-logo {
 
 .logo-badge {
   position: relative;
-  width: 300px;
-  max-width: 80vw;
+  width: fit-content;
   margin: 0 auto;
 }
 
@@ -165,9 +164,27 @@ body.status-nogo .site-logo {
 
 .arc-text text {
   fill: #eaf7f7;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 1.5px;
+  stroke: rgba(0, 0, 0, 0.8);
+  stroke-width: 1.5px;
+  paint-order: stroke fill;
+}
+
+.arc-top text {
+    fill: #eaf7f7;
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+
+    /* same contrast system as bottom */
+    stroke: rgba(0, 0, 0, 0.9);
+    stroke-width: 1.5px;
+    paint-order: stroke fill;
+
+    text-transform: uppercase;
 }
 
 /* =========================
@@ -187,26 +204,43 @@ body.status-nogo .site-logo {
 
 /* TOP */
 
-.overlay-date {
+.overlay-for {
     position: absolute;
-    top: 16%;
-    left: 50%;
+    top: 18%;
+    left: 50.2%;
     transform: translateX(-50%);
 
-    display: inline-block;
-    width: fit-content;          /* 🔥 forces shrink-to-text */
-    max-width: 90%;              /* safety for long text */
-
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 14px;
     font-weight: bold;
-    letter-spacing: .4px;
+    letter-spacing: 1px;
+
     color: #ffffff;
 
-    padding: 1px 1px;
-    border-radius: 8px;
+    text-shadow:
+        0 0 2px rgba(0,0,0,1),
+        0 0 4px rgba(0,0,0,0.95),
+        0 0 6px rgba(0,0,0,0.9),
+        0 0 10px rgba(255,255,255,0.6);
+}
 
-    background: rgba(0, 0, 0, 0.45);
+.overlay-date {
+    position: absolute;
+    top: 23%;
+    left: 50%;
+    transform: translateX(-49.75%);
+
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: .6px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 2px rgba(0,0,0,1),
+        0 0 4px rgba(0,0,0,0.95),
+        0 0 6px rgba(0,0,0,0.9),
+        0 0 12px rgba(255,255,255,0.7),
+        0 0 20px rgba(255,255,255,0.5);
 }
 
 /* CENTER */
@@ -226,7 +260,7 @@ body.status-pending .overlay-main {
 
 body.status-go .overlay-main {
     color: #6dff9d;
-    text-shadow: 0 0 10px rgba(0, 255, 30, 0.75);
+    text-shadow: 0 0 15px rgba(0, 255, 30, 0.75);
 }
 
 body.status-nogo .overlay-main {
@@ -235,12 +269,135 @@ body.status-nogo .overlay-main {
 }
 
 @keyframes pulse {
-    0%   { transform: translateX(-50%) scale(1); }
-    50%  { transform: translateX(-50%) scale(1.03); }
-    100% { transform: translateX(-50%) scale(1); }
+    0%   { transform: translateX(-49.8%) scale(1); }
+    50%  { transform: translateX(-49.8%) scale(1.05); }
+    100% { transform: translateX(-49.8%) scale(1); }
 }
 
 /* BOTTOM */
+
+/* EVENT TIME OVERLAY */
+
+.overlay-time {
+    position: absolute;
+    opacity: 0;
+    display: none; /* hidden by default */
+    top: 50%; /* adjust this for vertical placement */
+    left: 50.25%;
+    transform: translateX(-45%);
+    
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.2;
+
+    color: #ffffff;
+
+    /* fallback glow for non-webkit */
+    text-shadow:
+        0 0 2px rgba(0,0,0,0.9),
+        0 0 6px rgba(0,0,0,0.6);
+
+}
+
+.overlay-location {
+    position: absolute;
+    opacity: 0;
+    display: none; /* hidden by default */
+    top: 79%; /* adjust as needed */
+    left: 50.2%;
+    transform: translateX(-50%);
+
+    font-size: 22px;
+    font-weight: bolder;
+
+    text-align: center;
+
+    color: #7fffa5;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+        text-shadow:
+    /* dark outline (critical for yellow areas) */
+    0 0 2px rgba(0,0,0,1),
+    0 0 4px rgba(0,0,0,0.95),
+    0 0 6px rgba(0,0,0,0.9),
+
+    /* light glow (keeps it alive) */
+    0 0 8px rgba(255,255,255,0.9),
+    0 0 16px rgba(255,255,255,0.7);
+
+    /* stronger outline for yellow background 
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.9);*/
+}
+
+@keyframes locationGlow {
+    0% {
+        text-shadow:
+            0 0 2px rgba(0,0,0,1),
+            0 0 4px rgba(0,0,0,0.95),
+            0 0 6px rgba(0,0,0,0.9),
+            0 0 6px rgba(255,255,255,0.6),
+            0 0 12px rgba(255,255,255,0.4);
+    }
+
+    50% {
+        text-shadow:
+            0 0 3px rgba(0,0,0,1),
+            0 0 6px rgba(0,0,0,1),
+            0 0 8px rgba(0,0,0,0.95),
+            0 0 12px rgba(255,255,255,0.9),
+            0 0 20px rgba(255,255,255,0.7);
+    }
+
+    100% {
+        text-shadow:
+            0 0 2px rgba(0,0,0,1),
+            0 0 4px rgba(0,0,0,0.95),
+            0 0 6px rgba(0,0,0,0.9),
+            0 0 6px rgba(255,255,255,0.6),
+            0 0 12px rgba(255,255,255,0.4);
+    }
+}
+
+.overlay-location a {
+    color: inherit;
+    text-decoration: underline;
+
+    animation: locationGlow 3s ease-in-out infinite;
+}
+
+.overlay-location a:hover {
+    color: #ffffff;
+
+    text-shadow:
+        0 0 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,1),
+        0 0 14px rgba(255,255,255,1),
+        0 0 26px rgba(255,255,255,0.95);
+
+    transform: scale(1.06);
+}
+
+.fade-in {
+    animation: fadeInSoft 0.8s ease-out forwards;
+}
+
+@keyframes fadeInSoft {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
 
 .overlay-updated {
     top: 87%;
@@ -389,17 +546,32 @@ body.status-nogo .overlay-main {
     .site-logo {
         width: 250px;
         height: 250px;
+       
     }
 
     .overlay-date {
-    top: 16%;
-    font-size: 13px;
+    top: 24%;
+    font-size: 14px;
     line-height: 1.2;
     }
 
     .overlay-main {
         top: 30%;
         font-size: 22px;
+    }
+
+    .overlay-time {
+        font-size: 13px;
+        
+    }
+
+    .overlay-location {
+        font-size: 16px;
+       
+    }
+
+    .overlay-location a {
+        animation: locationGlow 2.5s ease-in-out infinite;
     }
 
     .overlay-updated {
