@@ -1,71 +1,23 @@
 /* calendar.js */
 
 /* =========================
-   CONTROL PANEL
-========================= */
-
-const CONFIG = {
-    override: true,
-
-    // 0 = PENDING | 1 = GO | 2 = NO GO
-    status: 1,
-
-    // Used only when override = true
-    overrideDate: "Sunday May 3",
-
-    // Sunday = 0
-    defaultEventDay: 0,
-
-    updatedStamp: true
-};
-
-/* =========================
-   EVENTS DATA
+   EVENTS DATA (SOURCE OF TRUTH)
 ========================= */
 
 const EVENTS = {
-    "260503": {
-        description: "SPACETIME! (PENDING)",
-        start: "6:00 PM",
-        end: "9:00 PM"
+    "260507": {
+        description: "SPACETIME!",
+        start: "19:00",
+        end: "21:00",
+        locationName: "Zuanich Point Park",
+        locationCoords: "48.754,-122.50086",
+        status: "GO"
     }
 };
 
 /* =========================
    DATE HELPERS
 ========================= */
-
-function getNextEventDate() {
-    if (CONFIG.override) return CONFIG.overrideDate;
-
-    const now = new Date();
-    const d = new Date(now);
-
-    const diff =
-        (CONFIG.defaultEventDay - d.getDay() + 7) % 7;
-
-    d.setDate(d.getDate() + diff);
-
-    const weekday = d.toLocaleDateString("en-US", {
-        weekday: "long"
-    });
-
-    const month = d.toLocaleDateString("en-US", {
-        month: "short"
-    });
-
-    return `${weekday} ${month} ${d.getDate()}`;
-}
-
-function getUpdatedText() {
-    const now = new Date();
-
-    const month = now.toLocaleDateString("en-US", {
-        month: "short"
-    });
-
-    return `Updated ${month} ${now.getDate()}, ${now.getFullYear()}`;
-}
 
 function buildDateKey(date) {
     return (
@@ -75,29 +27,113 @@ function buildDateKey(date) {
     );
 }
 
+function parseKeyToDate(key) {
+    const year = 2000 + Number(key.slice(0, 2));
+    const month = Number(key.slice(2, 4)) - 1; // JS months are 0-based
+    const day = Number(key.slice(4, 6));
+
+    return new Date(year, month, day); // ✅ LOCAL time
+}
+
+function formatDisplayDate(date) {
+    return date.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "short",
+        day: "numeric"
+    });
+}
+
+function getUpdatedText() {
+    const now = new Date();
+
+    const month = now.toLocaleDateString("en-US", {
+        month: "short"
+    });
+
+    return `As of ${month} ${now.getDate()}, ${now.getFullYear()}`;
+}
+
+function isToday(date) {
+    const today = new Date();
+
+    return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+    );
+}
+
+/* =========================
+   NEXT EVENT RESOLVER
+========================= */
+
+function getNextEvent() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const sortedKeys = Object.keys(EVENTS).sort();
+
+    for (let key of sortedKeys) {
+        const eventDate = parseKeyToDate(key);
+
+        if (eventDate >= today) {
+            return {
+                key,
+                data: EVENTS[key],
+                date: eventDate
+            };
+        }
+    }
+
+    return null;
+}
+
 /* =========================
    HEADER STATE ENGINE
 ========================= */
 
 function updateState() {
-    let state = "PENDING";
+    const nextEvent = getNextEvent();
 
-    if (CONFIG.status === 1) state = "GO";
-    if (CONFIG.status === 2) state = "NO_GO";
+    if (!nextEvent) return;
+
+    const { data, date } = nextEvent;
+
+    /* STATUS */
 
     if (typeof setHeaderState === "function") {
-        setHeaderState(state);
+        setHeaderState(data.status);
     }
+
+    /* TOP TEXT */
 
     if (typeof setStatusDate === "function") {
-        setStatusDate(`Status for<br>${getNextEventDate()}`);
+
+        if (isToday(date)) {
+            setStatusDate(`TONIGHT`);
+        } else {
+            setStatusDate(`${formatDisplayDate(date)}`);
+        }
+
     }
 
-    if (
-        CONFIG.updatedStamp &&
-        typeof setUpdatedText === "function"
-    ) {
+    /* UPDATED ARC TEXT */
+
+    if (typeof setUpdatedText === "function") {
         setUpdatedText(getUpdatedText());
+    }
+
+    /* EVENT TIME */
+
+    if (
+        data.status === "GO" &&
+        typeof setEventTime === "function"
+    ) {
+        setEventTime(data.start, data.end);
+        setEventLocation(data.locationName, data.locationCoords);
+    }
+    else {
+        setEventLocation(null, null);
     }
 }
 
@@ -114,12 +150,10 @@ function createCalendar() {
 
     const today = new Date();
 
-    // Start on previous/current Sunday
     const start = new Date(today);
     start.setHours(0, 0, 0, 0);
     start.setDate(today.getDate() - today.getDay());
 
-    // 4 week rolling grid
     for (let i = 0; i < 28; i++) {
         const d = new Date(start);
         d.setDate(start.getDate() + i);
@@ -139,9 +173,10 @@ function createCalendar() {
 
             cell.addEventListener("click", () => {
                 openPopup(`
-                    <h3>${d.toDateString()}</h3>
+                    <h3>${formatDisplayDate(d)}</h3>
                     <p>${eventData.description}</p>
                     <p>${eventData.start} - ${eventData.end}</p>
+                    <p>${eventData.location}</p>
                 `);
             });
         }
