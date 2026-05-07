@@ -6,8 +6,18 @@ body {
     color: #eaf7f7;
     font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
-}
+    position: relative;
+    isolation: isolate;
 
+    --accent: #27c7d9;
+    --glow: rgba(39,199,217,.65);
+    --border: rgba(39,199,217,.45);
+
+    --bg-brightness: 1;
+    --ambient-glow: .05;
+
+    filter: brightness(var(--bg-brightness));
+}
 /* =========================
    ATMOSPHERE ENGINE
 ========================= */
@@ -22,11 +32,13 @@ body {
 
     filter: brightness(var(--bg-brightness));
 }
-
+/*Skyglow*/
 body::before {
     content: "";
+
     position: fixed;
     inset: 0;
+
     pointer-events: none;
 
     background:
@@ -36,38 +48,25 @@ body::before {
             transparent 60%
         );
 
-    animation:
-        breatheSync calc(var(--pulse-duration) * 2) ease-in-out infinite;
-
-        opacity: 0.32;
-
-    background-image:
-        radial-gradient(circle at 22% 82%, rgba(255,255,255,0.14) 1px, transparent 1.5px),
-        radial-gradient(circle at 48% 36%, rgba(180,220,255,0.10) 1px, transparent 1.5px),
-        radial-gradient(circle at 88% 54%, rgba(255,255,255,0.12) 1px, transparent 1.5px);
-
-    background-size:
-        520px 520px,
-        460px 460px,
-        640px 640px;
+    opacity: 0.9;
 
     animation:
-        starDrift 400s linear infinite reverse,
-        starTwinkleB 4s ease-in-out infinite;
+        atmospherePulse calc(var(--pulse-duration) * 2)
+        ease-in-out infinite;
 
     z-index: 0;
 }
 
-body::after {
-    content: "";
-
+.starfield-near {
     position: fixed;
     inset: 0;
 
     pointer-events: none;
     overflow: hidden;
 
-    opacity: 0.55;
+    opacity: 0;
+
+    transition: opacity 1.8s ease;
 
     background-image:
         radial-gradient(circle at 12% 18%, rgba(255,255,255,0.20) 1px, transparent 1.5px),
@@ -82,10 +81,35 @@ body::after {
         420px 420px;
 
     animation:
-        starDrift 480s linear infinite,
-        starTwinkleA 1.5s ease-in-out infinite;
+        starDrift 480s linear infinite;
 
-    z-index: 0;
+    z-index: 1;
+}
+
+.starfield-far {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition: opacity 1.8s ease;
+
+    background-image:
+        radial-gradient(circle at 22% 82%, rgba(255,255,255,0.14) 1px, transparent 1.5px),
+        radial-gradient(circle at 48% 36%, rgba(180,220,255,0.10) 1px, transparent 1.5px),
+        radial-gradient(circle at 88% 54%, rgba(255,255,255,0.12) 1px, transparent 1.5px);
+
+    background-size:
+        520px 520px,
+        460px 460px,
+        640px 640px;
+
+    animation:
+        starDrift 400s linear infinite;
+
+    z-index: 1;
 }
 
 /* ANIMATION SYNCRHONIZER*/
@@ -120,16 +144,6 @@ body::after {
             180px 0px,
             80px 0px;
     }
-}
-
-@keyframes starTwinkleA {
-    0%, 100% { opacity: 0.45; }
-    50% { opacity: 0.65; }
-}
-
-@keyframes starTwinkleB {
-    0%, 100% { opacity: 0.20; }
-    50% { opacity: 0.751; }
 }
 
 @keyframes pulseGlowStrong {
@@ -211,13 +225,47 @@ body.status-nogo {
 }
 
 /* =========================
+   STARFIELD STATES
+========================= */
+
+/* GO = full sky */
+
+body.status-go .starfield-near {
+    opacity: 0.55;
+}
+
+body.status-go .starfield-far {
+    opacity: 0.32;
+}
+
+/* PENDING = subtle sky */
+
+body.status-pending .starfield-near {
+    opacity: 0.22;
+}
+
+body.status-pending .starfield-far {
+    opacity: 0;
+}
+
+/* NO GO = dead sky */
+
+body.status-nogo .starfield-near {
+    opacity: 0;
+}
+
+body.status-nogo .starfield-far {
+    opacity: 0;
+}
+
+/* =========================
    HEADER
 ========================= */
 .site-header,
 .calendar-wrap,
 .popup {
     position: relative;
-    z-index: 2;
+    z-index: 10;
 }
 
 .site-header {
@@ -349,8 +397,8 @@ body.status-nogo .site-logo {
 .overlay-date {
     position: absolute;
     top: 24%;
-    left: 50%;
-    transform: translateX(-49.75%);
+    left: 50.5%;
+    transform: translateX(-50%);
 
     font-size: clamp(16px, 2.5vw, 16px);
     font-weight: bold;
@@ -579,6 +627,8 @@ body.status-nogo .overlay-main {
     transform: scale(0.98);
 }
 
+
+
 /* =========================
    POPUP
 ========================= */
@@ -625,3 +675,100 @@ body.status-nogo .overlay-main {
     cursor: pointer;
 }
 
+/* =========================
+   SUPPORT MODULE (GRID STYLE)
+========================= */
+
+.support-section {
+    width: min(560px, calc(100% - 24px));
+    margin: 30px auto 50px auto;
+    padding: 0; /* IMPORTANT: let calendar-wrap control padding */
+    box-sizing: border-box;
+    overflow-x: hidden;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.support-title,
+.support-group {
+    padding: 0 12px;
+}
+
+.support-title {
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    color: rgba(234,247,247,0.85);
+}
+
+/* GRID ROW GROUPS */
+.support-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* BUTTON BASE (shared system style) */
+.support-btn {
+    display: block;
+
+    text-decoration: none;
+
+    padding: 10px 12px;
+    border-radius: 8px;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255,255,255,0.04);
+
+    color: #eaf7f7;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    letter-spacing: 0.3px;
+
+    transition:
+        transform .2s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+/* HOVER STATE */
+.support-btn:hover {
+    transform: translateY(-1px);
+
+    border-color: var(--accent);
+
+    background: rgba(255,255,255,0.06);
+
+    box-shadow: 0 0 14px var(--glow);
+}
+
+/* AFFILIATE / PARTICIPATION HIERARCHY */
+.support-btn.secondary {
+    opacity: 0.85;
+    font-size: 13px;
+}
+
+/* MOBILE FIX */
+@media (max-width: 600px) {
+
+    .overlay-time {
+        left: 51%;
+    }
+
+    .support-section {
+        width: min(560px, calc(100% - 24px));
+    }
+
+    .support-group {
+        grid-template-columns: 1fr;
+    }
+}
