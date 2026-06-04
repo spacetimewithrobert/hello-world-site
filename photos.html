@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Photos | Space Time With Robert</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- STARFIELD BACKGROUNDS -->
+    <div class="starfield-near"></div>
+    <div class="starfield-far"></div>
+
+    <!-- HEADER -->
+    <div id="site-header" class="ui-layer"></div>
+
+    <script src="site-state.js" defer></script>
+    <script src="outreach-events.js" defer></script>
+    <script src="header.js" defer></script>
+    <script src="photo-index.js" defer></script>
+    <script src="object-info.js" defer></script>
+    <script src="photos.js" defer></script>
+
+    <!-- PHOTOS PAGE -->
+    <main class="photos-page fade-in">
+
+
+        <!-- CATEGORY TABS -->
+
+        <section
+            class="photo-tabs glass-panel">
+
+            <button
+                class="photo-tab active"
+                data-category="all">
+
+                All
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="comets">
+
+                Comets
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="galaxies">
+
+                Galaxies
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="nebulae">
+
+                Nebulae
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="stars">
+
+                Stars
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="star-clusters">
+
+                Star Clusters
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="planets">
+
+                Planets
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="moon">
+
+                Moon
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="sun">
+
+                Sun
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="sky">
+
+                Sky
+
+            </button>
+
+            <button
+                class="photo-tab"
+                data-category="outreach">
+
+                Outreach
+
+            </button>
+
+        </section>
+
+        <!-- GALLERY -->
+
+        <section
+            id="photoGrid"
+            class="photo-grid">
+        </section>
+
+        
+
+        <!-- SUPPORT -->
+        <section class="support-section">
+
+            <div class="support-title">
+                SUPPORT THE OUTREACH MISSION
+            </div>
+
+            <div class="support-group">
+
+                <a href="https://www.paypal.com/cgi-bin/webscr?business=8KJCVHE3BSRLA&cmd=_donations&currency_code=USD&item_name=Telescope%20Donations&source=url"
+                target="_blank"
+                class="support-btn paypal-btn">
+                    PayPal
+                </a>
+
+                <a href="https://venmo.com/u/spacetimewithrobert"
+                target="_blank"
+                class="support-btn venmo-btn">
+                    Venmo
+                </a>
+
+                <a href="https://www.buymeacoffee.com/stwrobert"
+                target="_blank"
+                class="support-btn coffee-btn">
+                    Buy Me a Coffee
+                </a>
+
+            </div>
+
+            <div class="support-group">
+
+                <a href="https://www.highpointscientific.com/?rfsn=6336285.0b6134"
+                target="_blank"
+                class="support-btn secondary telescope-btn">
+                    I want a telescope
+                </a>
+
+                <a href="http://store.seestar.com/SPACE_TIME_WITH_ROBERT"
+                target="_blank"
+                class="support-btn secondary seestar-btn">
+                    I want a Seestar S50
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- PHOTO POPUP -->
+
+<div
+    id="photoPopup"
+    class="photo-popup">
+
+    <div
+        class="photo-popup-backdrop">
+    </div>
+
+    <div
+        class="photo-popup-content glass-panel">
+
+        <button
+            id="photoPopupClose"
+            class="popup-close-bar">
+
+            CLOSE
+
+        </button>
+
+        <div class="popup-viewer">
+
+            <button
+                id="popupPrev"
+                class="popup-side-nav">
+
+                ❮
+
+            </button>
+
+            <div class="popup-image-container">
+
+                <div
+                    id="popupSpinner"
+                    class="popup-spinner">
+                </div>
+
+                <img
+                    id="popupImage"
+                    src=""
+                    alt="">
+
+            </div>
+
+            <button
+                id="popupNext"
+                class="popup-side-nav">
+
+                ❯
+
+            </button>
+
+            <div class="popup-mobile-nav">
+
+                <button id="popupPrevMobile">
+                    PREV
+                </button>
+
+                <button id="popupNextMobile">
+                    NEXT
+                </button>
+
+            </div>
+
+        </div>
+
+        <div
+            id="popupMeta"
+            class="popup-meta">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div id="site-footer"></div>
+
+<script src="footer.js" defer></script>
+
+</body>
+
+</html>
