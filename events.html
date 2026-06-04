@@ -8,64 +8,89 @@
 <title>Events | SpaceTime With Robert</title>
 
 <link rel="stylesheet" href="style.css">
-
+<script src="site-state.js" defer></script>
+<script src="outreach-events.js" defer></script>
 <script src="header.js" defer></script>
+<script src="sky-events-2026.js" defer></script>
+<script src="sky-events-2027.js" defer></script>
+<script src="sky-events-2028.js" defer></script>
+<script src="sky-events-2029.js" defer></script>
+<script src="sky-events-2030.js" defer></script>
+<script src="sky-events-2031.js" defer></script>
+<script src="sky-events.js" defer></script>
 <script src="calendar.js" defer></script>
 </head>
 
-<body class="status-pending">
+<body class="events-page">
 
 <div class="starfield starfield-near"></div>
 <div class="starfield starfield-far"></div>
 
-<div id="site-header"></div>
+<div id="site-header" class="ui-layer"></div>
 
 <main class="calendar-wrap">
     <div id="calendar" class="calendar"></div>
+
+    <div class="legend-header">Calendar Legend</div>
+
+    <div class="calendar-legend">
+        <div class="legend-item">
+            <div class="legend-title">Moon Phases</div>
+            <div class="legend-icons">🌑 🌒 🌓 🌕 🌗 🌘</div>
+        </div>
+
+        <div class="legend-item">
+            <div class="legend-title">Celestial Events</div>
+            <div class="legend-icons">☄️ 🌠 🌌</div>
+        </div>
+
+        <div class="legend-item">
+            <div class="legend-title">Weather Conditions</div>
+            <div class="legend-icons">☀️ ⛅ 🌧️ ❄️</div>
+        </div>
+
+        <div class="legend-item">
+            <div class="legend-title">Spacetime Event Status</div>
+            <div class="legend-icons">
+                <span class="dot pending"></span>
+                <span class="dot go"></span>
+                <span class="dot nogo"></span>
+            </div>
+        </div>
+    </div>
 </main>
 
 <div id="overlay" class="overlay"></div>
 
 <section class="support-section">
-
     <div class="support-title">SUPPORT THE OUTREACH MISSION</div>
 
-    <!-- SUPPORT GROUP -->
     <div class="support-group">
-
-        <a href="YOUR_PAYPAL_LINK" target="_blank" class="support-btn">
-            PayPal
-        </a>
-
-        <a href="YOUR_VENMO_LINK" target="_blank" class="support-btn">
-            Venmo
-        </a>
-
-        <a href="YOUR_BMC_LINK" target="_blank" class="support-btn">
-            Buy Me a Coffee
-        </a>
-
+        <a href="https://www.paypal.com/cgi-bin/webscr?business=8KJCVHE3BSRLA&cmd=_donations&currency_code=USD&item_name=Telescope%20Donations&source=url" target="_blank" class="support-btn paypal-btn">PayPal</a>
+        <a href="https://venmo.com/u/spacetimewithrobert" target="_blank" class="support-btn venmo-btn">Venmo</a>
+        <a href="https://www.buymeacoffee.com/stwrobert" target="_blank" class="support-btn coffee-btn">Buy Me a Coffee</a>
     </div>
 
-    <!-- PARTICIPATE GROUP -->
     <div class="support-group">
-
-        <a href="YOUR_HIGHPOINT_LINK" target="_blank" class="support-btn secondary">
+        <a href="https://www.highpointscientific.com/?rfsn=6336285.0b6134" target="_blank" class="support-btn secondary telescope-btn">
             I want a telescope
         </a>
 
-        <a href="YOUR_SEESTAR_LINK" target="_blank" class="support-btn secondary">
+        <a href="http://store.seestar.com/SPACE_TIME_WITH_ROBERT" target="_blank" class="support-btn secondary seestar-btn">
             I want a Seestar S50
         </a>
-
     </div>
-
 </section>
+
 
 <div id="popup" class="popup">
     <div id="popup-content"></div>
     <button id="closePopupBtn" type="button">Close</button>
 </div>
+
+<div id="site-footer"></div>
+
+<script src="footer.js" defer></script>
 
 </body>
 </html>
