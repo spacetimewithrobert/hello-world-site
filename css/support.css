@@ -1,0 +1,226 @@
+/* =========================
+   SUPPORT SECTION
+========================= */
+
+.support-section {
+
+    position: relative;
+    z-index: 10;
+
+    width:
+        min(560px, calc(100% - 24px));
+
+    margin:
+        30px auto
+        24px auto;
+
+    padding: 0;
+
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+/* =========================
+   SUPPORT TITLE
+========================= */
+
+.support-title {
+
+    margin-bottom: 12px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    color:
+        rgba(234,247,247,0.85);
+}
+
+/* =========================
+   SUPPORT GROUP GRID
+========================= */
+
+.support-group {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(140px, 1fr));
+
+    gap: 10px;
+
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+
+/* =========================
+   SUPPORT BUTTON BASE
+========================= */
+
+.support-btn {
+
+    display: block;
+
+    padding:
+        10px 12px;
+
+    text-decoration: none;
+
+    color: #eaf7f7;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    letter-spacing: 0.3px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    background:
+        rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(4px);
+
+    box-sizing: border-box;
+
+    transition:
+        transform .2s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease,
+        color .25s ease;
+}
+
+/* =========================
+   BUTTON HOVER
+========================= */
+
+.support-btn:hover {
+
+    transform: translateY(-1px);
+
+    border-color: var(--accent);
+
+    background:
+        rgba(255,255,255,0.06);
+
+    box-shadow:
+        0 0 14px var(--glow);
+}
+
+/* =========================
+   SECONDARY BUTTONS
+========================= */
+
+.support-btn.secondary {
+
+    opacity: 0.85;
+
+    font-size: 13px;
+}
+
+/* =========================
+   PAYPAL
+========================= */
+
+.paypal-btn {
+
+    border-color:
+        rgba(80,150,255,0.75);
+}
+
+.paypal-btn:hover {
+
+    border-color:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 0 12px rgba(0,110,255,0.35);
+}
+
+/* =========================
+   VENMO
+========================= */
+
+.venmo-btn {
+
+    border-color:
+        rgba(100,240,255,0.75);
+}
+
+.venmo-btn:hover {
+
+    border-color:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 0 12px rgba(0,220,255,0.35);
+}
+
+/* =========================
+   BUY ME A COFFEE
+========================= */
+
+.coffee-btn {
+
+    border-color:
+        rgba(255,210,90,0.75);
+}
+
+.coffee-btn:hover {
+
+    border-color:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 0 12px rgba(255,190,40,0.35);
+}
+
+/* =========================
+   TELESCOPE
+========================= */
+
+.telescope-btn {
+
+    border-color:
+        rgba(255,255,255,0.75);
+}
+
+.telescope-btn:hover {
+
+    border-color:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,0.35);
+}
+
+/* =========================
+   SEESTAR
+========================= */
+
+.seestar-btn {
+
+    border-color:
+        rgba(120,255,180,0.75);
+}
+
+.seestar-btn:hover {
+
+    border-color:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 0 12px rgba(120,255,180,0.35);
+}

@@ -1,0 +1,427 @@
+/* =========================
+   ABOUT PAGE
+========================= */
+
+/* =========================
+   GLOBAL SAFETY
+========================= */
+
+.about-page * {
+    box-sizing: border-box;
+}
+
+/* =========================
+   HEADER TWEAKS
+========================= */
+
+body.about-page .overlay-main {
+    font-size: 28px;
+    top: 72px;
+    line-height: 0.88;
+
+    opacity: 0;
+
+    animation:
+        fadeOverlay 0.9s ease forwards;
+
+    animation-delay: 0.05s;
+}
+
+@keyframes fadeOverlay {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(-50%)
+            translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(-50%)
+            translateY(0);
+    }
+
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+main.about-page {
+    position: relative;
+    z-index: 10;
+
+    width: 100%;
+    max-width: 720px;
+
+    margin:
+        24px auto
+        0px;
+
+    padding:
+        0 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.about-card,
+.about-hero {
+    padding:
+        28px 24px;
+
+    text-align: center;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+.about-page h1,
+.about-page h2,
+.about-page h3 {
+    color: var(--accent);
+
+    text-transform: uppercase;
+}
+
+.about-page h1 {
+    font-size: 22px;
+    letter-spacing: 3px;
+
+    margin-bottom: 18px;
+
+    opacity: 0.95;
+}
+
+.about-page h2 {
+    font-size: 14px;
+    letter-spacing: 2.5px;
+
+    margin-bottom: 20px;
+
+    opacity: 0.9;
+}
+
+.about-page h3 {
+    font-size: 12px;
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+
+    opacity: 0.9;
+}
+
+.about-page p {
+    font-size: 13px;
+    line-height: 1.85;
+
+    color: rgba(255,255,255,0.85);
+
+    margin-bottom: 10px;
+}
+
+
+
+/* =========================
+   REMOVE EXTRA BOTTOM FLOW SPACE
+========================= */
+
+.about-page main.about-page > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* =========================
+   DIVIDERS
+========================= */
+
+.about-page hr {
+    border: none;
+
+    height: 1px;
+
+    margin: 40px 0;
+
+    background: var(--border);
+
+    opacity: 0.35;
+}
+
+/* =========================
+   STATUS SYSTEM
+========================= */
+
+.status-system {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin:
+        28px 0
+        30px;
+}
+
+.status-block {
+    min-width: 120px;
+
+    padding:
+        12px 18px;
+
+    border-radius: 999px;
+
+    text-align: center;
+
+    border:
+        1px solid rgba(255,255,255,0.12);
+
+    background:
+        rgba(255,255,255,0.04);
+
+    letter-spacing: 2px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.status-block.pending {
+    color: #27c7d9;
+}
+
+.status-block.go {
+    color: #2ecb63;
+}
+
+.status-block.nogo {
+    color: #d14a4a;
+}
+
+/* =========================
+   ERA SYSTEM
+========================= */
+
+.era-list {
+    margin-top: 28px;
+}
+
+.era-block {
+    margin-bottom: 14px;
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+.era-block[open] {
+    border-color: var(--accent);
+
+    background:
+        rgba(255,255,255,0.04);
+}
+
+/* =========================
+   ERA SUMMARY
+========================= */
+
+.era-block summary {
+    list-style: none;
+
+    cursor: pointer;
+
+    padding:
+        18px 20px;
+
+    text-align: center;
+
+    user-select: none;
+
+    transition:
+        background 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.era-block summary:hover {
+    background:
+        rgba(255,255,255,0.03);
+}
+
+.era-block summary::-webkit-details-marker {
+    display: none;
+}
+
+/* =========================
+   ERA CONTENT
+========================= */
+
+.era-content {
+    padding:
+        0 24px 22px;
+}
+
+.era-content p {
+    margin-bottom: 16px;
+}
+
+/* =========================
+   LOG BLOCKS
+========================= */
+
+.log-block {
+    margin-top: 18px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+
+    padding-top: 18px;
+}
+
+.log-block summary {
+    cursor: pointer;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.72);
+
+    list-style: none;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.log-block summary:hover {
+    opacity: 1;
+}
+
+.log-block summary::-webkit-details-marker {
+    display: none;
+}
+
+.log-content {
+    margin-top: 18px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+.era-block[open] .era-content,
+.log-block[open] .log-content {
+    animation: fadeBlock 0.25s ease;
+}
+
+@keyframes fadeBlock {
+
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* =========================
+   LOG ENTRIES
+========================= */
+
+.log-entry {
+
+    padding:
+        18px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.06);
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-date {
+
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    color: var(--accent);
+
+    margin-bottom: 6px;
+}
+
+.log-meta {
+
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    color:
+        rgba(255,255,255,0.58);
+
+    margin-bottom: 12px;
+}
+
+.log-summary {
+
+    font-size: 13px;
+    line-height: 1.8;
+
+    color:
+        rgba(255,255,255,0.84);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    main.about-page {
+        margin:
+            20px auto;
+    }
+
+    .about-card,
+    .about-hero {
+        padding:
+            24px 20px;
+    }
+
+    .about-page h1 {
+        font-size: 18px;
+    }
+
+    .about-page h2 {
+        font-size: 13px;
+    }
+
+    .about-page p {
+        font-size: 12.5px;
+    }
+
+    .status-block {
+        min-width: 100px;
+    }
+}

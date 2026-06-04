@@ -1,0 +1,69 @@
+<!-- footer.html -->
+<footer class="site-footer">
+  <div class="footer-container">
+
+    <div class="footer-section footer-brand">
+      <h3 class="footer-title">Space Time With Robert</h3>
+      <p class="footer-text">
+        Community astronomy outreach in the Pacific Northwest. 
+        Weekly telescope nights are driven by weather and sky conditions.
+      </p>
+    </div>
+
+    <div class="footer-section footer-status">
+      <h4 class="footer-subtitle">Current Status</h4>
+      <div id="footer-status-indicator" class="footer-status-indicator">
+        PENDING
+      </div>
+      <p class="footer-small">
+        Updates reflect current GO / NO GO conditions for outreach nights.
+      </p>
+    </div>
+
+    <div class="footer-section footer-links">
+      <h4 class="footer-subtitle">Navigate</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="photos.html">Photos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section footer-support">
+      <h4 class="footer-subtitle">Support Outreach</h4>
+      <p class="footer-small">
+        Help keep telescope nights running.
+      </p>
+
+      <div class="footer-buttons">
+        <a class="footer-btn" href="#" target="_blank" rel="noopener noreferrer">Donate</a>
+        <a class="footer-btn" href="#" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span id="footer-updated">Last updated: --</span>
+    <span class="footer-separator">•</span>
+    <span>© <span id="footer-year"></span> Space Time With Robert</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+  function setFooterStatus(statusText) {
+    const el = document.getElementById("footer-status-indicator");
+    if (!el) return;
+    el.textContent = statusText;
+    el.className = "footer-status-indicator " + statusText.toLowerCase();
+  }
+
+  function setFooterUpdated(dateText) {
+    const el = document.getElementById("footer-updated");
+    if (!el) return;
+    el.textContent = "Last updated: " + dateText;
+  }
+</script>

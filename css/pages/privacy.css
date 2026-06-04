@@ -1,0 +1,282 @@
+/* =========================
+   PRIVACY PAGE
+========================= */
+
+/* =========================
+   STATE AWARENESS
+========================= */
+
+/* PENDING */
+
+body.status-pending .privacy-page .glass-panel {
+    border-color: var(--border);
+
+    box-shadow:
+        0 0 10px rgba(0,0,0,0.15);
+}
+
+/* GO */
+
+body.status-go .privacy-page .glass-panel {
+    border-color: rgba(46,203,99,0.55);
+
+    box-shadow:
+        0 0 18px rgba(46,203,99,0.18);
+}
+
+/* NO GO */
+
+body.status-nogo .privacy-page .glass-panel {
+    border-color: rgba(209,74,74,0.55);
+
+    box-shadow:
+        0 0 18px rgba(209,74,74,0.18);
+}
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+
+.policy-wrap {
+
+    position: relative;
+    z-index: 10;
+
+    width: 100%;
+    max-width: 720px;
+
+    margin:
+        24px auto
+        70px auto;
+
+    padding:
+        0 16px;
+
+    box-sizing: border-box;
+}
+
+/* =========================
+   PANEL STACK
+========================= */
+
+.policy-panel {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+/* =========================
+   GLASS PANEL
+========================= */
+
+.glass-panel {
+
+    padding:
+        22px 18px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,0.02);
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+
+    opacity: 0;
+
+    animation:
+        fadePanel 0.7s ease forwards;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+.policy-panel h2 {
+
+    margin-top: 0;
+    margin-bottom: 16px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    color: var(--accent);
+
+    opacity: 0.9;
+}
+
+.policy-panel p,
+.policy-panel li {
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    color:
+        rgba(255,255,255,0.85);
+}
+
+.policy-panel p {
+
+    margin-bottom: 16px;
+}
+
+.policy-panel p:last-child {
+
+    margin-bottom: 0;
+}
+
+.policy-panel ul {
+
+    margin:
+        12px 0 18px 0;
+
+    padding-left: 20px;
+}
+
+.policy-panel li {
+
+    margin-bottom: 8px;
+}
+
+/* =========================
+   HEADER OVERLAY
+========================= */
+
+body.privacy-page .overlay-main {
+
+    font-size: 28px;
+
+    top: 72px;
+
+    line-height: 0.88;
+
+    opacity: 0;
+
+    animation:
+        fadeOverlay 0.9s ease forwards;
+
+    animation-delay: 0.05s;
+}
+
+@keyframes fadeOverlay {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(-50%)
+            translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            translateY(0);
+    }
+}
+
+/* =========================
+   STAGGERED PANEL DELAYS
+========================= */
+
+.glass-panel:nth-child(1) {
+    animation-delay: 0.08s;
+}
+
+.glass-panel:nth-child(2) {
+    animation-delay: 0.14s;
+}
+
+.glass-panel:nth-child(3) {
+    animation-delay: 0.20s;
+}
+
+.glass-panel:nth-child(4) {
+    animation-delay: 0.26s;
+}
+
+.glass-panel:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+.glass-panel:nth-child(6) {
+    animation-delay: 0.38s;
+}
+
+.glass-panel:nth-child(7) {
+    animation-delay: 0.44s;
+}
+
+/* =========================
+   PANEL ANIMATION
+========================= */
+
+@keyframes fadePanel {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .policy-wrap {
+
+        margin:
+            20px auto
+            70px auto;
+    }
+
+    .glass-panel {
+
+        padding:
+            20px 16px;
+    }
+
+    .policy-panel h2 {
+
+        font-size: 13px;
+    }
+
+    .policy-panel p,
+    .policy-panel li {
+
+        font-size: 12.5px;
+    }
+
+    body.privacy-page .overlay-main {
+
+        font-size: 24px;
+
+        top: 70px;
+    }
+}

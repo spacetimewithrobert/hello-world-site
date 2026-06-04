@@ -1,0 +1,93 @@
+/* =========================
+   RESET
+========================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* =========================
+   ROOT VARIABLES
+========================= */
+
+:root {
+
+    --accent: #27c7d9;
+    --glow: rgba(39,199,217,.65);
+    --border: rgba(39,199,217,.45);
+
+    --bg-brightness: 1;
+    --ambient-glow: .05;
+
+    --pulse-duration: 3.2s;
+}
+
+/* =========================
+   HTML / BODY
+========================= */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    background: #081018;
+    color: #eaf7f7;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    overflow-x: clip;
+
+    position: relative;
+
+    min-height: 100%;
+}
+
+/* =========================
+   GLOBAL PAGE LAYOUT
+========================= */
+
+body {
+    width: 100%;
+}
+
+/* =========================
+   COMMON HELPERS
+========================= */
+
+.fade-in {
+    animation: fadeInSoft 0.8s ease-out forwards;
+}
+
+.glass-panel {
+
+    background: rgba(255,255,255,0.03);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    backdrop-filter: blur(6px);
+
+    box-shadow:
+        0 0 18px rgba(0,0,0,0.18);
+}
+
+/* =========================
+   FADE ANIMATION
+========================= */
+
+@keyframes fadeInSoft {
+
+    0% {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

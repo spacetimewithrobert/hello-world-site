@@ -1,0 +1,137 @@
+/* =========================
+   NAVIGATION
+========================= */
+
+.site-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 8px;
+
+    width: min(520px, calc(100% - 20px));
+
+    margin:
+        14px auto
+        0 auto;
+
+    position: relative;
+    z-index: 20;
+}
+
+/* =========================
+   NAV LINKS
+========================= */
+
+.site-nav a {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding:
+        8px
+        6px;
+
+    text-decoration: none;
+
+    color: #eaf7f7;
+
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    text-align: center;
+
+    border-radius: 8px;
+
+    border:
+        1px solid var(--border);
+
+    background:
+        rgba(255,255,255,0.03);
+
+    backdrop-filter: blur(4px);
+
+    box-sizing: border-box;
+
+    transition:
+        transform .22s ease,
+        border-color .22s ease,
+        background .22s ease,
+        box-shadow .25s ease,
+        color .22s ease;
+}
+
+/* =========================
+   HOVER
+========================= */
+
+.site-nav a:hover {
+
+    transform: translateY(-1px);
+
+    border-color: var(--accent);
+
+    background:
+        rgba(255,255,255,0.06);
+
+    box-shadow:
+        0 0 14px var(--glow);
+}
+
+/* =========================
+   ACTIVE PAGE
+========================= */
+
+.site-nav a.active {
+
+    background: var(--accent);
+
+    color: #081018;
+
+    border-color:
+        rgba(255,255,255,0.25);
+
+    box-shadow:
+        0 0 16px var(--glow);
+}
+
+/* =========================
+   ACTIVE HOVER
+========================= */
+
+.site-nav a.active:hover {
+
+    filter: brightness(1.04);
+
+    transform: translateY(-1px);
+}
+
+/* =========================
+   SMALL MOBILE TWEAK
+========================= */
+
+@media (max-width: 480px) {
+
+    .site-nav {
+
+        gap: 6px;
+
+        width:
+            min(520px, calc(100% - 16px));
+    }
+
+    .site-nav a {
+
+        font-size: 12px;
+
+        min-height: 38px;
+
+        padding:
+            7px
+            4px;
+    }
+}

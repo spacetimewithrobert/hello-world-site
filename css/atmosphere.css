@@ -1,0 +1,275 @@
+/* =========================
+   ATMOSPHERE ENGINE
+========================= */
+
+/* SKY GLOW */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255,255,255,var(--ambient-glow)),
+            transparent 60%
+        );
+
+    opacity: 0.9;
+
+    animation:
+        atmospherePulse calc(var(--pulse-duration) * 2)
+        ease-in-out infinite;
+
+    z-index: 0;
+}
+
+/* =========================
+   STARFIELDS
+========================= */
+
+.starfield-near {
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition: opacity 1.8s ease;
+
+    background-image:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.20) 1px, transparent 1.5px),
+        radial-gradient(circle at 78% 26%, rgba(180,220,255,0.16) 1px, transparent 1.5px),
+        radial-gradient(circle at 64% 72%, rgba(255,255,255,0.18) 1px, transparent 1.5px),
+        radial-gradient(circle at 28% 58%, rgba(140,255,255,0.14) 1px, transparent 1.5px);
+
+    background-size:
+        220px 220px,
+        340px 340px,
+        280px 280px,
+        420px 420px;
+
+    animation:
+        starDrift 480s linear infinite;
+
+    z-index: 1;
+}
+
+.starfield-far {
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition: opacity 1.8s ease;
+
+    background-image:
+        radial-gradient(circle at 22% 82%, rgba(255,255,255,0.14) 1px, transparent 1.5px),
+        radial-gradient(circle at 48% 36%, rgba(180,220,255,0.10) 1px, transparent 1.5px),
+        radial-gradient(circle at 88% 54%, rgba(255,255,255,0.12) 1px, transparent 1.5px);
+
+    background-size:
+        520px 520px,
+        460px 460px,
+        640px 640px;
+
+    animation:
+        starDrift 400s linear infinite;
+
+    z-index: 1;
+}
+
+/* =========================
+   ANIMATION SYSTEM
+========================= */
+
+@keyframes starDrift {
+
+    from {
+
+        background-position:
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px;
+    }
+
+    to {
+
+        background-position:
+            120px 0px,
+            90px 0px,
+            160px 0px,
+            70px 0px,
+            140px 0px,
+            100px 0px,
+            180px 0px,
+            80px 0px;
+    }
+}
+
+@keyframes pulseGlowStrong {
+
+    0%,
+    100% {
+        box-shadow: 0 0 18px var(--glow);
+    }
+
+    50% {
+        box-shadow: 0 0 32px var(--glow);
+    }
+}
+
+@keyframes pulseTextGlow {
+
+    0%,
+    100% {
+
+        text-shadow:
+            0 0 6px rgba(0,0,0,0.9),
+            0 0 12px rgba(255,255,255,0.4);
+    }
+
+    50% {
+
+        text-shadow:
+            0 0 8px rgba(0,0,0,1),
+            0 0 18px rgba(255,255,255,0.9),
+            0 0 28px var(--glow);
+    }
+}
+
+@keyframes pulseScaleSoft {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+@keyframes atmospherePulse {
+
+    0%,
+    100% {
+        opacity: 0.9;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes eventPulse {
+
+    0% {
+        box-shadow: 0 0 0 rgba(120,255,180,0);
+    }
+
+    50% {
+        box-shadow: 0 0 14px rgba(120,255,180,.35);
+    }
+
+    100% {
+        box-shadow: 0 0 0 rgba(120,255,180,0);
+    }
+}
+
+/* =========================
+   GLOBAL STATE ENGINE
+========================= */
+
+/* PENDING */
+
+body.status-pending {
+
+    --accent: #27c7d9;
+    --glow: rgba(39,199,217,.65);
+    --border: rgba(39,199,217,.45);
+
+    --bg-brightness: 1;
+
+    --ambient-glow: .05;
+}
+
+/* GO */
+
+body.status-go {
+
+    --accent: #2ecb63;
+    --glow: rgba(46,203,99,.75);
+    --border: rgba(46,203,99,.45);
+
+    --bg-brightness: 1.06;
+
+    --ambient-glow: .08;
+
+    animation:
+        atmospherePulse calc(var(--pulse-duration) * 2)
+        ease-in-out infinite;
+}
+
+/* NO GO */
+
+body.status-nogo {
+
+    --accent: #d14a4a;
+    --glow: rgba(209,74,74,.70);
+    --border: rgba(209,74,74,.45);
+
+    --bg-brightness: .93;
+
+    --ambient-glow: .03;
+}
+
+/* =========================
+   STARFIELD STATES
+========================= */
+
+/* GO */
+
+body.status-go .starfield-near {
+    opacity: 0.55;
+}
+
+body.status-go .starfield-far {
+    opacity: 0.32;
+}
+
+/* PENDING */
+
+body.status-pending .starfield-near {
+    opacity: 0.22;
+}
+
+body.status-pending .starfield-far {
+    opacity: 0;
+}
+
+/* NO GO */
+
+body.status-nogo .starfield-near {
+    opacity: 0;
+}
+
+body.status-nogo .starfield-far {
+    opacity: 0;
+}

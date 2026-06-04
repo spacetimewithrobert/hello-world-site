@@ -1,0 +1,344 @@
+/* =========================
+   CONTACT PAGE
+========================= */
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.contact-page {
+
+    position: relative;
+    z-index: 10;
+
+    width: 100%;
+    max-width: 720px;
+
+    margin:
+        30px auto
+        60px auto;
+
+    padding:
+        0 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+
+    box-sizing: border-box;
+}
+
+/* =========================
+   STATE AWARENESS
+========================= */
+
+/* PENDING */
+
+body.status-pending .contact-page .glass-panel {
+
+    border-color: var(--border);
+
+    box-shadow:
+        0 0 10px rgba(0,0,0,0.15);
+}
+
+/* GO */
+
+body.status-go .contact-page .glass-panel {
+
+    border-color:
+        rgba(46,203,99,0.55);
+
+    box-shadow:
+        0 0 18px rgba(46,203,99,0.18);
+}
+
+/* NO GO */
+
+body.status-nogo .contact-page .glass-panel {
+
+    border-color:
+        rgba(209,74,74,0.55);
+
+    box-shadow:
+        0 0 18px rgba(209,74,74,0.18);
+}
+
+/* =========================
+   PANEL BASE
+========================= */
+
+.contact-hero,
+.contact-card,
+.outreach-card {
+
+    padding:
+        22px 18px;
+
+    opacity: 0;
+
+    animation:
+        fadePanel 0.7s ease forwards;
+}
+
+/* =========================
+   STAGGERED DELAYS
+========================= */
+
+.contact-hero {
+    animation-delay: 0.08s;
+}
+
+.contact-card {
+    animation-delay: 0.16s;
+}
+
+.outreach-card {
+    animation-delay: 0.24s;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.contact-hero {
+
+    text-align: center;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+.contact-page h1,
+.contact-page h2 {
+
+    color: var(--accent);
+
+    text-transform: uppercase;
+}
+
+.contact-page h1 {
+
+    font-size: 22px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 18px;
+
+    opacity: 0.95;
+}
+
+.contact-page h2 {
+
+    margin-top: 0;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    opacity: 0.85;
+}
+
+.contact-page p {
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    color:
+        rgba(255,255,255,0.85);
+}
+
+/* =========================
+   CONTACT CARD
+========================= */
+
+.contact-card {
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.contact-method {
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.contact-label {
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    opacity: 0.7;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.contact-button {
+
+    display: inline-block;
+
+    padding:
+        10px 16px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    border:
+        1px solid var(--border);
+
+    background:
+        rgba(255,255,255,0.04);
+
+    color: #eaf7f7;
+
+    font-weight: bold;
+
+    transition:
+        all .25s ease;
+}
+
+/* GO */
+
+body.status-go .contact-button {
+
+    border-color:
+        rgba(46,203,99,0.55);
+}
+
+/* NO GO */
+
+body.status-nogo .contact-button {
+
+    border-color:
+        rgba(209,74,74,0.55);
+}
+
+.contact-button:hover {
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 14px var(--glow);
+
+    transform:
+        translateY(-1px);
+}
+
+/* =========================
+   RESPONSE TEXT
+========================= */
+
+.response-time {
+
+    font-size: 13px;
+
+    opacity: 0.7;
+
+    text-align: center;
+}
+
+/* =========================
+   OUTREACH
+========================= */
+
+.outreach-card {
+
+    text-align: center;
+}
+
+.outreach-card ul {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin:
+        12px 0 0 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    font-size: 14px;
+
+    opacity: 0.85;
+}
+
+/* =========================
+   PANEL ANIMATION
+========================= */
+
+@keyframes fadePanel {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(6px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .contact-page {
+
+        margin:
+            20px auto
+            70px auto;
+    }
+
+    .contact-hero,
+    .contact-card,
+    .outreach-card {
+
+        padding:
+            20px 16px;
+    }
+
+    .contact-page h1 {
+
+        font-size: 18px;
+    }
+
+    .contact-page h2 {
+
+        font-size: 13px;
+    }
+
+    .contact-page p,
+    .response-time,
+    .outreach-card ul {
+
+        font-size: 12.5px;
+    }
+}

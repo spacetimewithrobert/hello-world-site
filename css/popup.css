@@ -1,0 +1,282 @@
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.72);
+
+    display: none;
+
+    z-index: 999;
+
+    backdrop-filter: blur(2px);
+}
+
+/* =========================
+   POPUP WINDOW
+========================= */
+
+.popup {
+
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width:
+        min(300px, calc(100% - 30px));
+
+    max-height: 80vh;
+
+    overflow-y: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    display: none;
+
+    z-index: 1000;
+
+    border:
+        2px solid var(--accent);
+
+    border-radius: 12px;
+
+    background: #0f1a24;
+
+    box-shadow:
+        0 0 18px var(--glow);
+
+    backdrop-filter: blur(8px);
+}
+
+/* =========================
+   POPUP TYPOGRAPHY
+========================= */
+
+.popup h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 10px;
+
+    font-size: 24px;
+
+    letter-spacing: 0.5px;
+}
+
+.popup p {
+
+    line-height: 1.6;
+
+    margin:
+        10px 0;
+
+    opacity: 0.92;
+}
+
+/* =========================
+   DIVIDERS
+========================= */
+
+.popup hr {
+
+    border: none;
+
+    height: 1px;
+
+    margin:
+        14px 0;
+
+    background:
+        var(--border);
+}
+
+/* =========================
+   WEATHER ICON
+========================= */
+
+.popup-weather {
+
+    display: inline-block;
+
+    font-size: 24px;
+
+    line-height: 1;
+}
+
+/* =========================
+   MOON ICON
+========================= */
+
+.popup-moon {
+
+    display: inline-block;
+
+    margin-bottom: 4px;
+
+    font-size: 24px;
+}
+
+/* =========================
+   MOON GLOW STATES
+========================= */
+
+/* full */
+
+.popup-moon.full-moon {
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,.9),
+        0 0 16px rgba(255,255,255,.55),
+        0 0 22px rgba(255,255,255,.35);
+}
+
+/* gibbous */
+
+.popup-moon.waxing-gibbous,
+.popup-moon.waning-gibbous {
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,.45),
+        0 0 14px rgba(255,255,255,.25);
+}
+
+/* quarter */
+
+.popup-moon.first-quarter,
+.popup-moon.last-quarter {
+
+    text-shadow:
+        0 0 6px rgba(255,255,255,.25);
+}
+
+/* crescent */
+
+.popup-moon.waxing-crescent,
+.popup-moon.waning-crescent {
+
+    text-shadow:
+        0 0 4px rgba(255,255,255,.18);
+}
+
+/* new */
+
+.popup-moon.new-moon {
+
+    opacity: 0.7;
+
+    text-shadow: none;
+}
+
+/* =========================
+   MAP LINK
+========================= */
+
+.popup-map-link {
+
+    display: inline-block;
+
+    color: #7fffa5;
+
+    font-weight: bold;
+
+    text-decoration: underline;
+
+    transition:
+        color .2s ease,
+        text-shadow .25s ease,
+        transform .2s ease;
+}
+
+.popup-map-link:hover {
+
+    color: #ffffff;
+
+    transform: scale(1.03);
+
+    text-shadow:
+        0 0 6px rgba(255,255,255,.7),
+        0 0 14px rgba(255,255,255,.45);
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.popup button {
+
+    position: sticky;
+
+    bottom: 0;
+
+    margin-top: 14px;
+
+    padding:
+        10px 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        var(--accent);
+
+    color: #081018;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
+}
+
+.popup button:hover {
+
+    transform: translateY(-1px);
+
+    filter: brightness(1.05);
+
+    box-shadow:
+        0 0 12px var(--glow);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.popup::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(255,255,255,0.18);
+
+    border-radius: 10px;
+}
+
+.popup::-webkit-scrollbar-track {
+
+    background:
+        rgba(255,255,255,0.04);
+}

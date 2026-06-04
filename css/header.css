@@ -1,0 +1,379 @@
+/* =========================
+   HEADER LAYOUT
+========================= */
+
+.site-header {
+    position: relative;
+
+    width: 100%;
+
+    z-index: 10;
+
+    text-align: center;
+
+    padding: 20px 10px;
+}
+
+.logo-container {
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+/* =========================
+   LOGO BADGE
+========================= */
+
+.logo-badge {
+
+    position: relative;
+
+    width: clamp(300px, 70vw, 300px);
+
+    aspect-ratio: 1 / 1;
+
+    margin: 0 auto;
+}
+
+.site-logo {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 2px solid var(--border);
+
+    display: block;
+
+    transition:
+        filter .35s ease,
+        box-shadow .35s ease;
+}
+
+/* =========================
+   LOGO STATES
+========================= */
+
+body.status-pending .site-logo {
+
+    filter: grayscale(1) brightness(1.08);
+
+    box-shadow:
+        0 0 14px var(--glow);
+}
+
+body.status-go .site-logo {
+
+    filter:
+        brightness(1.15)
+        saturate(1.2);
+
+    animation:
+        pulseGlowStrong
+        var(--pulse-duration)
+        ease-in-out
+        infinite;
+}
+
+body.status-nogo .site-logo {
+
+    filter: brightness(.95);
+
+    box-shadow:
+        0 0 22px var(--glow);
+}
+
+/* =========================
+   ARC TEXT
+========================= */
+
+.arc-text {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+}
+
+.arc-text text {
+
+    fill: #eaf7f7;
+
+    font-size: clamp(14px, 2.8vw, 14px);
+
+    font-weight: 500;
+
+    letter-spacing: 1.5px;
+
+    stroke: rgba(0,0,0,0.8);
+
+    stroke-width: 1.5px;
+
+    paint-order: stroke fill;
+}
+
+.arc-top text {
+
+    fill: #eaf7f7;
+
+    font-size: clamp(14px, 2.8vw, 14px);
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    stroke: rgba(0,0,0,0.9);
+
+    stroke-width: 1.5px;
+
+    paint-order: stroke fill;
+
+    text-transform: uppercase;
+}
+
+/* =========================
+   OVERLAY SYSTEM
+========================= */
+
+.overlay-date,
+.overlay-main,
+.overlay-updated {
+
+    white-space: pre-line;
+    line-height: 0.95;
+
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    width: auto;
+
+    text-shadow:
+        0 0 10px rgba(0,0,0,.75);
+}
+
+/* =========================
+   TOP OVERLAYS
+========================= */
+
+.overlay-for {
+
+    position: absolute;
+
+    top: 18%;
+
+    left: 50.2%;
+
+    transform: translateX(-50%);
+
+    font-size: clamp(14px, 2.5vw, 16px);
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 2px rgba(0,0,0,1),
+        0 0 4px rgba(0,0,0,0.95),
+        0 0 6px rgba(0,0,0,0.9),
+        0 0 10px rgba(255,255,255,0.6);
+}
+
+.overlay-date {
+
+    position: absolute;
+
+    top: 24%;
+
+    left: 50.5%;
+
+    transform: translateX(-50%);
+
+    font-size: clamp(16px, 2.5vw, 16px);
+
+    font-weight: bold;
+
+    letter-spacing: .6px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 2px rgba(0,0,0,1),
+        0 0 4px rgba(0,0,0,0.95),
+        0 0 6px rgba(0,0,0,0.9),
+        0 0 12px rgba(255,255,255,0.7),
+        0 0 20px rgba(255,255,255,0.5);
+}
+
+/* =========================
+   MAIN STATUS TEXT
+========================= */
+
+.overlay-main {
+
+    top: 31%;
+
+    width: auto;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    animation:
+        pulseTextGlow var(--pulse-duration) ease-in-out infinite,
+        pulseScaleSoft var(--pulse-duration) ease-in-out infinite;
+
+    animation-delay: 0.05s;
+}
+
+/* PENDING */
+
+body.status-pending .overlay-main {
+
+    color: #dfe8ee;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.75);
+}
+
+/* GO */
+
+body.status-go .overlay-main {
+
+    color: #6dff9d;
+
+    text-shadow:
+        0 0 15px rgba(0,255,30,0.75);
+}
+
+/* NO GO */
+
+body.status-nogo .overlay-main {
+
+    color: #ff8b8b;
+
+    text-shadow:
+        0 0 10px rgba(255,0,0,0.75);
+}
+
+/* =========================
+   EVENT TIME
+========================= */
+
+.overlay-time {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: min(760px, calc(50% - 14px));
+
+    text-align: center;
+
+    font-size: clamp(18px, 4vw, 18px);
+
+    font-weight: bold;
+
+    line-height: 1.2;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 2px rgba(0,0,0,0.9),
+        0 0 6px rgba(0,0,0,0.6);
+
+    transition:
+        opacity .6s ease;
+}
+
+/* =========================
+   EVENT LOCATION
+========================= */
+
+.overlay-location {
+
+    position: absolute;
+
+    top: 81%;
+
+    left: 50.2%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    font-size: clamp(18px, 2.5vw, 20px);
+
+    font-weight: bolder;
+
+    color: #7fffa5;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 0 2px rgba(0,0,0,1),
+        0 0 4px rgba(0,0,0,0.95),
+        0 0 6px rgba(0,0,0,0.9),
+        0 0 8px rgba(255,255,255,0.9),
+        0 0 16px rgba(255,255,255,0.7);
+
+    transition:
+        opacity .6s ease;
+}
+
+.overlay-location a {
+
+    color: inherit;
+
+    text-decoration: underline;
+}
+
+.overlay-location a:hover {
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 4px rgba(0,0,0,1),
+        0 0 8px rgba(0,0,0,1),
+        0 0 14px rgba(255,255,255,1),
+        0 0 26px rgba(255,255,255,0.95);
+
+    transform: scale(1.06);
+}
+
+/* =========================
+   UPDATED TEXT
+========================= */
+
+.overlay-updated {
+
+    top: 87%;
+
+    font-size: 14px;
+
+    color: #cfd8de;
+}

@@ -1,0 +1,480 @@
+/* =========================
+   CALENDAR WRAPPER
+========================= */
+
+.calendar-wrap {
+
+    position: relative;
+    z-index: 10;
+
+    width:
+        min(560px, calc(100% - 24px));
+
+    margin:
+        30px auto
+        10px;
+
+    box-sizing: border-box;
+}
+
+/* =========================
+   CALENDAR GRID
+========================= */
+
+.calendar {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+    gap: 5px;
+
+    width: 100%;
+}
+
+/* =========================
+   WEEKDAY LABELS
+========================= */
+
+.weekday-label {
+
+    text-align: center;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    opacity: 0.65;
+
+    padding-bottom: 4px;
+
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   DAY CELL
+========================= */
+
+.day {
+
+    position: relative;
+
+    min-height: 62px;
+
+    padding: 6px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 6px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    background:
+        rgba(255,255,255,0.015);
+
+    box-sizing: border-box;
+
+    transition:
+        transform .15s ease,
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .25s ease;
+}
+
+.day:hover {
+
+    transform: translateY(-1px);
+
+    border-color: var(--accent);
+
+    background:
+        rgba(255,255,255,0.03);
+}
+
+/* mobile tap feel */
+
+.day:active {
+
+    transform: scale(0.98);
+}
+
+/* =========================
+   TODAY
+========================= */
+
+.day.today {
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 10px var(--glow),
+        inset 0 0 12px rgba(255,255,255,0.03);
+}
+
+/* =========================
+   DATE NUMBER
+========================= */
+
+.date-num {
+
+    position: absolute;
+
+    top: 6px;
+    left: 6px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    opacity: 0.9;
+}
+
+/* =========================
+   EVENT STATES
+========================= */
+
+.day.has-event {
+
+    background:
+        rgba(100,180,255,0.12);
+}
+
+.day.go-event {
+
+    animation:
+        eventPulse 3s infinite;
+}
+
+.day.has-event::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 6px;
+    right: 6px;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: var(--accent);
+
+    box-shadow:
+        0 0 8px var(--glow);
+}
+
+/* =========================
+   MOON SYSTEM
+========================= */
+
+.moon-phase {
+
+    position: absolute;
+
+    top: 5px;
+    right: 5px;
+
+    font-size: 14px;
+
+    opacity: 0.95;
+
+    transition:
+        text-shadow .3s ease,
+        transform .2s ease;
+}
+
+/* crescents */
+
+.day.waxing-crescent .moon-phase,
+.day.waning-crescent .moon-phase {
+
+    text-shadow:
+        0 0 4px rgba(255,255,255,0.18);
+}
+
+/* quarters */
+
+.day.first-quarter .moon-phase,
+.day.last-quarter .moon-phase {
+
+    text-shadow:
+        0 0 6px rgba(255,255,255,0.28);
+}
+
+/* gibbous */
+
+.day.waxing-gibbous .moon-phase,
+.day.waning-gibbous .moon-phase {
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,0.42);
+}
+
+/* full moon */
+
+.day.full-moon .moon-phase {
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,.9),
+        0 0 16px rgba(255,255,255,.55),
+        0 0 22px rgba(255,255,255,.35);
+
+    transform: scale(1.04);
+}
+
+/* new moon */
+
+.day.new-moon .moon-phase {
+
+    opacity: 0.72;
+}
+
+/* =========================
+   WEATHER
+========================= */
+
+.weather-icon {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    pointer-events: none;
+}
+
+/* =========================
+   SKY EVENTS
+========================= */
+
+.sky-event {
+
+    position: absolute;
+
+    bottom: 4px;
+    left: 4px;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+    text-shadow:
+        0 0 6px rgba(255,255,255,.22);
+
+    transition:
+        transform .2s ease,
+        text-shadow .25s ease;
+}
+
+.day:hover .sky-event {
+
+    transform: scale(1.08);
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,.45);
+}
+
+/* =========================
+   CALENDAR LEGEND
+========================= */
+
+.legend-header {
+
+    text-align: center;
+
+    margin-top: 20px;
+    margin-bottom: 1px;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    opacity: 0.75;
+}
+
+.calendar-legend {
+
+    width:
+        min(214px, calc(100% - 24px));
+
+    margin:
+        10px auto
+        0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+
+    padding:
+        10px 12px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,0.02);
+
+    font-size: 12px;
+
+    opacity: 0.85;
+
+    box-sizing: border-box;
+}
+
+/* =========================
+   LEGEND GROUP
+========================= */
+
+.legend-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    padding:
+        6px 10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    background:
+        rgba(255,255,255,0.02);
+}
+
+.legend-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    text-align: center;
+}
+
+.legend-title {
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    opacity: 0.7;
+}
+
+.legend-icons {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+}
+
+.legend-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+.legend-text {
+
+    font-size: 12px;
+
+    opacity: 0.8;
+}
+
+.legend-label {
+
+    min-width: 110px;
+
+    text-align: right;
+
+    font-size: 12px;
+
+    opacity: 0.75;
+}
+
+/* =========================
+   STATUS DOTS
+========================= */
+
+.dot {
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+}
+
+/* pending */
+
+.dot.pending {
+
+    background: #27c7d9;
+
+    box-shadow:
+        0 0 4px rgba(39,199,217,.6);
+}
+
+/* go */
+
+.dot.go {
+
+    background: #2ecb63;
+
+    box-shadow:
+        0 0 4px rgba(46,203,99,.6);
+}
+
+/* no go */
+
+.dot.nogo {
+
+    background: #d14a4a;
+
+    box-shadow:
+        0 0 4px rgba(209,74,74,.6);
+}
