@@ -1,0 +1,76 @@
+@import url("css/base.css");
+@import url("css/atmosphere.css");
+@import url("css/header.css");
+@import url("css/navigation.css");
+@import url("css/calendar.css");
+@import url("css/popup.css");
+@import url("css/support.css");
+@import url("css/footer.css");
+
+
+@import url("css/pages/about.css");
+@import url("css/pages/contact.css");
+@import url("css/pages/photos.css");
+@import url("css/pages/privacy.css");
+
+@import url("css/responsive.css");
+
+.overlay-main,
+.overlay-for,
+.overlay-date,
+.overlay-time,
+.overlay-location,
+.arc-top,
+.arc-bottom {
+
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* MAIN TITLE */
+.overlay-main {
+    animation: fadeOnly 0.9s ease forwards;
+    animation-delay: 0.05s;
+}
+
+/* FOR + DATE */
+.overlay-for {
+    animation: fadeOnly 0.8s ease forwards;
+    animation-delay: 0.12s;
+}
+
+.overlay-date {
+    animation: fadeOnly 0.8s ease forwards;
+    animation-delay: 0.18s;
+}
+
+/* TIME + LOCATION */
+
+.overlay-time,
+.overlay-location {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.6s ease;
+}
+
+/* ARCS */
+.arc-top {
+    animation: fadeOnly 0.9s ease forwards;
+    animation-delay: 0.10s;
+}
+
+.arc-bottom {
+    animation: fadeOnly 0.9s ease forwards;
+    animation-delay: 0.14s;
+}
+
+
+/* SIMPLE FADE ONLY */
+@keyframes fadeOnly {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
